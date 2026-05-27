@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GenTrip - Settings &amp; Export</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#d9d9e7",
+                    "surface-container-low": "#f3f2ff",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed-dim": "#ffb59c",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#380c00",
+                    "tertiary-container": "#bf3003",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#6b1f00",
+                    "on-surface-variant": "#434656",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#001452",
+                    "surface-bright": "#fbf8ff",
+                    "surface-tint": "#004ced",
+                    "inverse-primary": "#b7c4ff",
+                    "surface-container-highest": "#e1e1ef",
+                    "background": "#fbf8ff",
+                    "tertiary-fixed-dim": "#ffb4a1",
+                    "primary-container": "#0052ff",
+                    "primary": "#003ec7",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#b7c4ff",
+                    "on-tertiary-fixed-variant": "#891e00",
+                    "on-primary-fixed-variant": "#0038b6",
+                    "secondary-container": "#fe7e4f",
+                    "on-secondary-fixed-variant": "#822800",
+                    "surface-container-high": "#e7e7f5",
+                    "secondary-fixed": "#ffdbcf",
+                    "inverse-on-surface": "#f0effe",
+                    "tertiary-fixed": "#ffdbd2",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e1e1ef",
+                    "outline-variant": "#c3c5d9",
+                    "surface": "#fbf8ff",
+                    "on-tertiary-container": "#ffddd5",
+                    "on-background": "#191b25",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2e303a",
+                    "primary-fixed": "#dde1ff",
+                    "secondary": "#a43c12",
+                    "tertiary": "#952200",
+                    "on-primary-container": "#dfe3ff",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#191b25",
+                    "outline": "#737688",
+                    "on-tertiary-fixed": "#3c0800",
+                    "surface-container": "#ededfb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-desktop": "24px",
+                    "card-gap": "12px",
+                    "gutter": "16px",
+                    "unit": "8px",
+                    "container-padding-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "meta-data": ["Inter"],
+                    "display-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-caps": ["Inter"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "meta-data": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "display-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fbf8ff;
+            color: #191b25;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16 bg-surface dark:bg-inverse-surface">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim cursor-pointer">menu</span>
+<h1 class="font-display-lg text-headline-md text-primary dark:text-primary-fixed-dim">GenTrip</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-outline-variant">account_circle</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-20 px-container-padding-mobile md:px-container-padding-desktop max-w-[1280px] mx-auto">
+<!-- Profile Section (Bento Style Item) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-gutter">
+<div class="md:col-span-8 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/30 flex items-center gap-6">
+<div class="relative">
+<img alt="User Profile" class="w-20 h-20 rounded-full object-cover border-4 border-primary-fixed" data-alt="A professional and friendly portrait of a traveler with a warm smile, captured in soft, natural daylight. The background is a clean, minimalist urban environment with blurred architectural details. The overall aesthetic is bright and high-key, aligning with a premium travel application's light-mode design, featuring soft shadows and a crisp, modern feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0WgXdFAcifb68crnvOLOUcKYrxXeeQBUupqvDTMNmmQ2V-GHld0RVYPKAltstflTcLXRDR7ujkXX9gi2xNx172T1dWR71FaRvthqVoIbE8am2_u8FWPshLOGR5wsjP2mN-yJgc6iiLRrIz32rtjCuQK0wDgGYeyY9BtFC8FNRlQcc-cnbiYbEQbX6uvoXg-3PFeckCEfPsBw-r6vhtyKAVS9QMqsWev9BUciXSHhMmVMmS4bMfzr4Z_x07ThoERuhifxkzWUiHwzF"/>
+<div class="absolute bottom-0 right-0 bg-primary p-1 rounded-full border-2 border-surface">
+<span class="material-symbols-outlined text-white text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div>
+<h2 class="font-display-lg text-headline-md text-on-surface">Alex Thompson</h2>
+<p class="font-body-sm text-on-surface-variant">Premium Member • GenTrip AI Assistant Active</p>
+<div class="mt-2 flex gap-2">
+<span class="bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full font-label-caps text-label-caps">Explorer Level 4</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed px-3 py-1 rounded-full font-label-caps text-label-caps">Beta Tester</span>
+</div>
+</div>
+</div>
+<!-- Quick Export Card -->
+<div class="md:col-span-4 bg-primary-container p-6 rounded-xl shadow-sm flex flex-col justify-between text-on-primary-container">
+<div>
+<h3 class="font-headline-md mb-2 text-white">Ready for Departure?</h3>
+<p class="font-body-sm text-on-primary-container/80">Get your latest Tokyo itinerary as a high-quality PDF.</p>
+</div>
+<button class="mt-4 bg-white text-primary font-label-caps text-label-caps py-3 rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+                    Export Itinerary as PDF
+                </button>
+</div>
+</section>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Left Column: Settings Groups -->
+<div class="md:col-span-7 space-y-gutter">
+<!-- Language Preferences -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/30">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">language</span>
+<h3 class="font-headline-md">Language Preferences</h3>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-transparent hover:border-primary-fixed transition-colors">
+<span class="font-body-lg">Traditional Chinese (繁體中文)</span>
+<div class="w-12 h-6 bg-outline-variant rounded-full relative cursor-pointer">
+<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-transparent hover:border-primary-fixed transition-colors">
+<span class="font-body-lg">Simplified Chinese (简体中文)</span>
+<div class="w-12 h-6 bg-outline-variant rounded-full relative cursor-pointer">
+<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-primary/10 border border-primary/20">
+<span class="font-body-lg font-bold text-primary">English</span>
+<div class="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- App Settings -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/30">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">settings</span>
+<h3 class="font-headline-md">App Settings</h3>
+</div>
+<div class="divide-y divide-outline-variant/20">
+<div class="py-4 flex items-center justify-between">
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined text-on-surface-variant">notifications_active</span>
+<div>
+<p class="font-body-lg">Notifications</p>
+<p class="font-body-sm text-on-surface-variant">Flight updates and check-in reminders</p>
+</div>
+</div>
+<div class="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="py-4 flex items-center justify-between">
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined text-on-surface-variant">payments</span>
+<div>
+<p class="font-body-lg">Currency Choice</p>
+<p class="font-body-sm text-on-surface-variant">Prices will be displayed in USD ($)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<div class="py-4 flex items-center justify-between">
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined text-on-surface-variant">location_on</span>
+<div>
+<p class="font-body-lg">Location Services</p>
+<p class="font-body-sm text-on-surface-variant">Optimize itinerary based on current spot</p>
+</div>
+</div>
+<div class="w-12 h-6 bg-outline-variant rounded-full relative cursor-pointer">
+<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Export History & Previews -->
+<div class="md:col-span-5 space-y-gutter">
+<!-- PDF Preview Mockup -->
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden">
+<h3 class="font-headline-md mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">visibility</span>
+                        Export Preview
+                    </h3>
+<div class="aspect-[1/1.414] bg-surface-container w-full rounded-lg relative overflow-hidden border border-outline-variant/50">
+<!-- Simulated PDF Content -->
+<div class="p-6 bg-white h-full space-y-4">
+<div class="flex justify-between items-start">
+<div class="w-24 h-4 bg-primary/20 rounded"></div>
+<div class="w-12 h-12 bg-primary/10 rounded-full"></div>
+</div>
+<div class="space-y-2">
+<div class="w-3/4 h-6 bg-on-surface/10 rounded"></div>
+<div class="w-1/2 h-4 bg-on-surface/5 rounded"></div>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-8">
+<div class="h-24 bg-surface-container rounded"></div>
+<div class="h-24 bg-surface-container rounded"></div>
+</div>
+<div class="space-y-4 pt-4 border-t border-dashed border-outline-variant">
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded bg-primary/20"></div>
+<div class="flex-1 space-y-2">
+<div class="w-full h-3 bg-on-surface/5 rounded"></div>
+<div class="w-2/3 h-3 bg-on-surface/5 rounded"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent flex items-end justify-center pb-8">
+<span class="font-label-caps text-primary bg-white px-4 py-2 rounded-full shadow-sm">View Template Options</span>
+</div>
+</div>
+</div>
+<!-- Recent Exports -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/30">
+<h3 class="font-headline-md mb-4">Recently Exported</h3>
+<div class="space-y-card-gap">
+<div class="flex items-center gap-4 p-3 bg-surface-container-low rounded-lg group hover:bg-surface-container transition-colors">
+<div class="w-10 h-10 bg-error/10 text-error flex items-center justify-center rounded">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div class="flex-1">
+<p class="font-body-lg text-on-surface">Tokyo_Summer_2024.pdf</p>
+<p class="font-meta-data text-on-surface-variant">Exported 2 days ago • 1.4 MB</p>
+</div>
+<button class="material-symbols-outlined text-outline group-hover:text-primary">download</button>
+</div>
+<div class="flex items-center gap-4 p-3 bg-surface-container-low rounded-lg group hover:bg-surface-container transition-colors">
+<div class="w-10 h-10 bg-error/10 text-error flex items-center justify-center rounded">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div class="flex-1">
+<p class="font-body-lg text-on-surface">Paris_Foodie_Tour.pdf</p>
+<p class="font-meta-data text-on-surface-variant">Exported 1 week ago • 0.9 MB</p>
+</div>
+<button class="material-symbols-outlined text-outline group-hover:text-primary">download</button>
+</div>
+</div>
+<button class="w-full mt-4 text-primary font-label-caps text-label-caps py-2 border border-primary/20 rounded-lg hover:bg-primary/5 transition-colors">
+                        View All History
+                    </button>
+</div>
+</div>
+</div>
+<!-- Danger Zone -->
+<section class="mt-gutter pt-gutter border-t border-outline-variant/20">
+<div class="bg-error-container/20 p-6 rounded-xl border border-error/20 flex flex-col md:flex-row justify-between items-center gap-4">
+<div>
+<h4 class="font-headline-md text-on-error-container">Account Security</h4>
+<p class="font-body-sm text-on-surface-variant">Manage your data or permanently delete your account and all itineraries.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2 rounded-lg border border-outline font-label-caps text-label-caps text-on-surface">Sign Out</button>
+<button class="px-6 py-2 rounded-lg bg-error text-on-error font-label-caps text-label-caps">Delete Account</button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Visible on mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center bg-surface dark:bg-inverse-surface py-2 px-4 pb-safe shadow-sm dark:shadow-none">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-transform duration-150 scale-95 active:scale-90">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-transform duration-150 scale-95 active:scale-90">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-caps text-label-caps mt-1">Plans</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-transform duration-150 scale-95 active:scale-90">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-caps text-label-caps mt-1">History</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1 transition-transform duration-150 scale-95 active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-caps text-label-caps mt-1">Profile</span>
+</div>
+</nav>
+</body></html>

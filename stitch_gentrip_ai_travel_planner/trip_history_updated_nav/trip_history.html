@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Saved Trips - GenTrip</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2e303a",
+                        "background": "#fbf8ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001452",
+                        "inverse-primary": "#b7c4ff",
+                        "surface-tint": "#004ced",
+                        "on-tertiary-fixed": "#3c0800",
+                        "surface-container": "#ededfb",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f0effe",
+                        "surface-variant": "#e1e1ef",
+                        "secondary-fixed-dim": "#ffb59c",
+                        "outline": "#737688",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c3c5d9",
+                        "surface-container-high": "#e7e7f5",
+                        "primary-fixed": "#dde1ff",
+                        "on-primary-container": "#dfe3ff",
+                        "on-tertiary-container": "#ffddd5",
+                        "on-surface": "#191b25",
+                        "on-surface-variant": "#434656",
+                        "secondary": "#a43c12",
+                        "primary-container": "#0052ff",
+                        "surface-container-highest": "#e1e1ef",
+                        "primary": "#003ec7",
+                        "primary-fixed-dim": "#b7c4ff",
+                        "on-error": "#ffffff",
+                        "surface": "#fbf8ff",
+                        "tertiary-fixed-dim": "#ffb4a1",
+                        "tertiary": "#952200",
+                        "on-secondary-fixed": "#380c00",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d9d9e7",
+                        "secondary-fixed": "#ffdbcf",
+                        "on-secondary-fixed-variant": "#822800",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#6b1f00",
+                        "on-primary-fixed-variant": "#0038b6",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdbd2",
+                        "secondary-container": "#fe7e4f",
+                        "on-background": "#191b25",
+                        "surface-bright": "#fbf8ff",
+                        "on-tertiary-fixed-variant": "#891e00",
+                        "tertiary-container": "#bf3003",
+                        "surface-container-low": "#f3f2ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "16px",
+                        "unit": "8px",
+                        "container-padding-desktop": "24px",
+                        "card-gap": "12px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "meta-data": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "meta-data": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "display-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #fbf8ff; }
+        .plus-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-surface docked full-width top-0 sticky z-50 flex items-center justify-between px-container-padding-mobile md:px-container-padding-desktop w-full py-unit">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary" data-icon="explore">explore</span>
+<h1 class="font-display-lg text-display-lg text-primary dark:text-inverse-primary tracking-tight">GenTrip</h1>
+</div>
+<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary" data-icon="add_circle">add_circle</span>
+</button>
+</header>
+<main class="max-w-screen-xl mx-auto px-container-padding-mobile md:px-container-padding-desktop py-6">
+<!-- Search Bar Section -->
+<div class="mb-6">
+<div class="relative flex items-center bg-surface-container-lowest border border-outline-variant rounded-xl px-4 py-3 focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant mr-3" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full font-body-lg text-body-lg placeholder:text-on-surface-variant/50" placeholder="Search your trips..." type="text"/>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="tune">tune</span>
+</div>
+</div>
+<!-- Tabs/Filters -->
+<div class="flex gap-4 mb-8">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-headline-md text-headline-md transition-all active:scale-95">Upcoming</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-headline-md text-headline-md hover:bg-surface-container-highest transition-all active:scale-95">Past</button>
+</div>
+<!-- Main Content: Trip Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-card-gap">
+<!-- Card 1: Tokyo -->
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_12px_rgba(0,0,0,0.05)] hover:shadow-lg transition-all border border-outline-variant/30">
+<div class="relative h-56 overflow-hidden">
+<img alt="Tokyo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A cinematic sunset view of Tokyo's skyline with the Tokyo Tower glowing orange against a twilight purple sky. The image is captured with a high-contrast, modern clean aesthetic consistent with a bright light-mode UI. Sharp architectural details and soft city lights create an atmosphere of vibrant energy and effortless exploration. The composition is professional and balanced, emphasizing high-utility travel planning vibes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA35ZastUNalLepKAFeuGEugXgverQZ0hSq83gev4fpp9KyRC2Jc3bhLbXxH9-ktPfc99he2Tds5oNoawN33b-Zzihoysrt9pxxWyTxPk2_ijLkuMdgYs3hgR9B5HYa0yyTMuK4il6dUF3LsJzZMlZcSlR8_TX6a--bCmpdTo3ovLwBYbDJG-Ouikae2AFx05ir8XAL42e8iVB9Z7MhdzbG-KyWzgkTKsRsdDgP9guXDxzjyZWHl4W7gvc7vsOLgj8NwuMsHDRcKliw"/>
+<div class="absolute top-3 left-3 bg-primary-container/90 backdrop-blur-sm text-on-primary-container px-3 py-1 rounded-full text-label-caps font-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="share">share</span>
+                        Shared
+                    </div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">3 Days in Tokyo</h3>
+<span class="material-symbols-outlined text-primary" data-icon="more_vert">more_vert</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-3">
+<span class="material-symbols-outlined text-[18px]" data-icon="calendar_today">calendar_today</span>
+<span class="font-meta-data text-meta-data">Oct 12 - Oct 14</span>
+</div>
+<div class="flex items-center justify-between mt-4 pt-4 border-t border-surface-variant">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="event_note">event_note</span>
+<span class="font-meta-data text-meta-data">12 Activities</span>
+</div>
+<div class="flex -space-x-2">
+<div class="w-7 h-7 rounded-full border-2 border-white bg-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-on-secondary-fixed" data-icon="person">person</span>
+</div>
+<div class="w-7 h-7 rounded-full border-2 border-white bg-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-on-tertiary-fixed" data-icon="group">group</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Paris -->
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_12px_rgba(0,0,0,0.05)] hover:shadow-lg transition-all border border-outline-variant/30">
+<div class="relative h-56 overflow-hidden">
+<img alt="Paris" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A romantic morning view of the Eiffel Tower from a Parisian street lined with classic Haussmann architecture. The lighting is soft and airy, perfectly matching a bright, modern light-mode design system. The scene is dominated by creamy whites and pale blues, with vibrant pops of green from street-side trees. The mood is serene and sophisticated, evoking the premium travel experience of GenTrip." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAaxz1qZ29JwsdfeG_QOqcCwt5N0OJELdb4hcnz9XpaNgcTXs1wAcp4ulQwWMT1UxZ-Uz1patgkosvqK-Ncjx8i7qFk0fNFLGNHM-8AQotObCM2Cmtip_RzpqOmhNdrO_ghsyxBu8_18jir_Ovw8ud1TXDCGdPi9BRE4hDThwhGH74YS3VKa9F-GB29YXgVku13H7mOiWSPsiGzx0wTAlBv2cMmK6xKbFmzykQ0MHQePjM9Hg3-0sa9E-2rETdmOLheyO0ZUcAKPFs"/>
+<div class="absolute top-3 left-3 bg-secondary-container/90 backdrop-blur-sm text-on-secondary-container px-3 py-1 rounded-full text-label-caps font-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                        Exported
+                    </div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Parisian Romance</h3>
+<span class="material-symbols-outlined text-primary" data-icon="more_vert">more_vert</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-3">
+<span class="material-symbols-outlined text-[18px]" data-icon="calendar_today">calendar_today</span>
+<span class="font-meta-data text-meta-data">Nov 02 - Nov 08</span>
+</div>
+<div class="flex items-center justify-between mt-4 pt-4 border-t border-surface-variant">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="event_note">event_note</span>
+<span class="font-meta-data text-meta-data">24 Activities</span>
+</div>
+<div class="w-7 h-7 rounded-full border-2 border-white bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-on-primary-fixed" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3: New York -->
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_12px_rgba(0,0,0,0.05)] hover:shadow-lg transition-all border border-outline-variant/30">
+<div class="relative h-56 overflow-hidden">
+<img alt="New York" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-energy wide-angle shot of Times Square in New York City during a bright, sunny afternoon. The composition features the iconic yellow cabs and colorful digital billboards against a crisp blue sky. The lighting is high-key and vibrant, reinforcing a modern Cloud-Ready aesthetic. The visual style is fast-paced and reliable, reflecting AI-driven travel planning excellence with clear details and expansive whitespace in the framing." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVFmhm8utOrgNPLJd3Gk0IqfHFh-CacnSE2KqSPXIdV3r9YhQUBcOQ-sUBhh5VHDwvrWBlW2kCKKP36arDlgf2r2KuoF7C8GvwwcM7cIJ1fW8tplNsZ8T8qPb1rGgq8MQEpcZ0D5nyP0h1muPme6-yty6kgkWLLjbi8qrMhYbttaH_JVUI36T-EQIxNRRvBPMn5LBvfw6c5HiPlbpAf6ChH9OsHW52geiVBZk566YBCors5RS7oag4KVq_YkWJ_075hIFpqNv8ECKS"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">NYC Winter Break</h3>
+<span class="material-symbols-outlined text-primary" data-icon="more_vert">more_vert</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-3">
+<span class="material-symbols-outlined text-[18px]" data-icon="calendar_today">calendar_today</span>
+<span class="font-meta-data text-meta-data">Dec 20 - Dec 27</span>
+</div>
+<div class="flex items-center justify-between mt-4 pt-4 border-t border-surface-variant">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="event_note">event_note</span>
+<span class="font-meta-data text-meta-data">18 Activities</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/30" data-icon="lock">lock</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-6 bg-primary text-on-primary w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-primary-container transition-all active:scale-90 z-50">
+<span class="material-symbols-outlined text-[32px]" data-icon="add">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-surface-container-lowest dark:bg-inverse-surface shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-caps text-label-caps mt-1">Plans</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container dark:bg-primary dark:text-on-primary rounded-full px-4 py-1 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="history" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="font-label-caps text-label-caps mt-1">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person_outline">person_outline</span>
+<span class="font-label-caps text-label-caps mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

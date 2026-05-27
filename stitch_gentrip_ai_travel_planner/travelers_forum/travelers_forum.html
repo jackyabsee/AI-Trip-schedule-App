@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GenTrip - Community Forum</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#b7c4ff",
+                    "on-primary-fixed-variant": "#0038b6",
+                    "tertiary-container": "#bf3003",
+                    "surface-dim": "#d9d9e7",
+                    "outline-variant": "#c3c5d9",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#f3f2ff",
+                    "outline": "#737688",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#ffb59c",
+                    "on-surface-variant": "#434656",
+                    "tertiary-fixed": "#ffdbd2",
+                    "on-tertiary-fixed-variant": "#891e00",
+                    "on-primary-container": "#dfe3ff",
+                    "surface-tint": "#004ced",
+                    "on-background": "#191b25",
+                    "secondary-fixed": "#ffdbcf",
+                    "on-tertiary-container": "#ffddd5",
+                    "surface-variant": "#e1e1ef",
+                    "secondary-container": "#fe7e4f",
+                    "on-secondary": "#ffffff",
+                    "on-surface": "#191b25",
+                    "on-secondary-fixed": "#380c00",
+                    "surface-container": "#ededfb",
+                    "secondary": "#a43c12",
+                    "primary-container": "#0052ff",
+                    "on-primary-fixed": "#001452",
+                    "inverse-surface": "#2e303a",
+                    "primary-fixed": "#dde1ff",
+                    "inverse-primary": "#b7c4ff",
+                    "tertiary-fixed-dim": "#ffb4a1",
+                    "on-secondary-container": "#6b1f00",
+                    "inverse-on-surface": "#f0effe",
+                    "surface-bright": "#fbf8ff",
+                    "error": "#ba1a1a",
+                    "background": "#fbf8ff",
+                    "surface-container-highest": "#e1e1ef",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#e7e7f5",
+                    "on-tertiary-fixed": "#3c0800",
+                    "tertiary": "#952200",
+                    "primary": "#003ec7",
+                    "on-secondary-fixed-variant": "#822800",
+                    "surface": "#fbf8ff",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-mobile": "16px",
+                    "container-padding-desktop": "24px",
+                    "card-gap": "12px",
+                    "gutter": "16px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "display-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "meta-data": ["Inter"],
+                    "label-caps": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                    "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                    "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                    "display-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                    "headline-md": ["20px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                    "meta-data": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                    "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-lg antialiased">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-background fixed top-0 w-full z-50 flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16">
+<button class="hover:bg-surface-container dark:hover:bg-inverse-surface transition-colors p-2 -ml-2 rounded-full">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="menu">menu</span>
+</button>
+<h1 class="font-display-lg text-display-lg font-bold text-primary dark:text-primary-fixed-dim tracking-tight">GenTrip</h1>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="User Profile Photo" class="w-full h-full object-cover" data-alt="A clean, professional profile headshot of a smiling user set against a bright, neutral backdrop. The lighting is soft and modern, ensuring the avatar blends seamlessly into a minimalist, light-mode user interface. Colors are natural and friendly." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbmSGBQZBudXQusqyXOqcBAuuD7jOYkvszstYh5k5ZwjamkvjzTp268yBIvJz053CqK8UVOAfxljCQ3mkorioCvTejT6ho4s7LQDia_QOOxpN0prF4KRgUdHBcLXtPHjGyW4Y6P06gdEyWF-OgO3rDSUivp6FGUhyktt22e4pUdDnridCyAPEKMilJiehkroeM2_jnKFIft_pMJ9DYDZHEQrCDnBhBN8taXK1t0WWN0Qv28NmPxk2V4Try4NylTJmfeoWrxMqVNWWL"/>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-20 pb-28 md:pb-12 max-w-7xl mx-auto">
+<!-- Search and Categories -->
+<section class="px-container-padding-mobile md:px-container-padding-desktop mb-6">
+<div class="relative w-full mb-6 max-w-3xl">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-12 pr-4 py-3 rounded-xl border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary bg-surface-container-lowest text-on-surface font-body-lg text-body-lg transition-all outline-none shadow-sm placeholder:text-outline" placeholder="Search topics, destinations..." type="text"/>
+</div>
+<div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+<button class="whitespace-nowrap px-5 py-2.5 rounded-full bg-primary-container text-on-primary-container font-label-caps text-label-caps transition-colors">All Topics</button>
+<button class="whitespace-nowrap px-5 py-2.5 rounded-full bg-surface-container-lowest text-on-surface font-label-caps text-label-caps border border-outline-variant hover:bg-surface-variant transition-colors">Trip Reviews</button>
+<button class="whitespace-nowrap px-5 py-2.5 rounded-full bg-surface-container-lowest text-on-surface font-label-caps text-label-caps border border-outline-variant hover:bg-surface-variant transition-colors">Travel Tips</button>
+<button class="whitespace-nowrap px-5 py-2.5 rounded-full bg-surface-container-lowest text-on-surface font-label-caps text-label-caps border border-outline-variant hover:bg-surface-variant transition-colors">Meetups</button>
+<button class="whitespace-nowrap px-5 py-2.5 rounded-full bg-surface-container-lowest text-on-surface font-label-caps text-label-caps border border-outline-variant hover:bg-surface-variant transition-colors">Gear &amp; Tech</button>
+</div>
+</section>
+<!-- Forum Feed (Bento Grid) -->
+<section class="px-container-padding-mobile md:px-container-padding-desktop">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-card-gap">
+<!-- Featured Post (Spans 2 columns on tablet/desktop) -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-5 md:col-span-2 lg:col-span-2 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center gap-3 mb-4">
+<img alt="Avatar" class="w-10 h-10 rounded-full border border-outline-variant/20" data-alt="A tiny, circular profile picture showing a female traveler with sunglasses. The image is bright and colorful, fitting a travel application aesthetic. The background is slightly blurred to keep focus on the subject." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8btPss-BANkCWo-XXyji7gmLdhEnuhUhABf9VT0zqQ_LEGm45M1tsWEyuwLQKF1tLqDarx4dER_-wQSPTfChcHz-VveMnHX58ESOgTuFvJ8PZ6b6-ZH2ByqYFyx2IuH1hnUQijLX9Z-A9oYq1MjLCHaaFGmkAQm2PpSCATbCpVCPlVEm0fWVKx9f4lqIrjStHXFIYVDNLM7J0rbAVpvZ212USmit9Hpve46FzjTviS4DCmIzxGl82hoBustFcpBVds19FpbzroUsP"/>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface text-[16px]">Elena Rostova</div>
+<div class="font-meta-data text-meta-data text-on-surface-variant">2 hours ago • Trip Reviews</div>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">My Solo Trip to Bali: The Hidden Waterfalls</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant line-clamp-3 mb-4">Just got back from an incredible 2-week journey across Bali. Instead of sticking to the usual spots in Seminyak, I ventured north to find some of the most breathtaking, untouched waterfalls. Here is my complete itinerary and budget breakdown...</p>
+<div class="w-full h-48 md:h-64 rounded-lg mb-4 bg-surface-variant overflow-hidden">
+<img alt="Bali Waterfall" class="w-full h-full object-cover" data-alt="A lush, cinematic view of a hidden waterfall deep in a tropical jungle. The scene is vibrant with deep greens and bright whites from the cascading water. The lighting is soft and natural, filtering through the canopy, fitting perfectly within a modern light-mode interface layout." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzZQkGDENvpy5qyKYW-ksBZmcqbiRCYBsucmX8F4wirHLOPqLpfLjC_OONl7WTX-OOVOOJomwDL9H7b7yJ9ZJQVqipTrIuly-S-0WGXS6EZpxDvj1D-l8OLv2ap0UftCGVNIFSqPvkzKaekQUzHahaIdyDCwq32LNe0OjA23lZXdt-b-FM6mQDGUGZdqffmEXkM409vtP_um_cu-XrI1OWhAF5xW3a19nRSCBA4o4aBaTLYezrB_rzGDQptpJRqYnq_Qu2zYPE1RUC"/>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant/30 pt-3 mt-2">
+<div class="flex items-center gap-5 text-on-surface-variant">
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+<span class="font-meta-data text-meta-data">245</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-meta-data text-meta-data">42</span>
+</button>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+</article>
+<!-- Standard Post -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-5 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center gap-3 mb-4">
+<img alt="Avatar" class="w-8 h-8 rounded-full border border-outline-variant/20" data-alt="A small circular avatar of a male user wearing a backpack. Bright natural lighting highlights his face, matching the clean, friendly aesthetic of a modern travel community platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI2Pz7w7h5s_6abTBiGxO3WaiEaVL9wquJELq8rqoabmfCA5-rqh8jMdZF31_lGFyr3nvFa2iSmpUgUzjzanNiV_x1IZPsmLCWC23Bf9FWketZuead0LfCjzbMdIC_DVP9FYBc1cpVq8OtbmePEHMjFSUl3UaF1j0FGAPV0EF8v9tNACoqWA0T4xLOPl_fn73VfWPRADwPd9DJxVgP0YMInQ3k3lDDDu4dGwMSivlsZnZG6WhxTsh4aAZzbpfLej1LX_IF5Mdn7SKa"/>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface text-[15px]">Marcus Chen</div>
+<div class="font-meta-data text-meta-data text-on-surface-variant">5 hours ago • Travel Tips</div>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 text-[18px]">Packing Light: 7 Days in a Carry-On</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-4 mb-4">I used to be a chronic overpacker. After losing my luggage in Rome last year, I challenged myself to fit 7 days worth of versatile outfits into a single carry-on. The secret is Merino wool and rolling techniques...</p>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant/30 pt-3">
+<div class="flex items-center gap-5 text-on-surface-variant">
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+<span class="font-meta-data text-meta-data">128</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-meta-data text-meta-data">15</span>
+</button>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+</article>
+<!-- Standard Post -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-5 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center gap-3 mb-4">
+<img alt="Avatar" class="w-8 h-8 rounded-full border border-outline-variant/20" data-alt="A small circular avatar showing a young woman smiling in a city setting. The color palette is vibrant and clear, ensuring high contrast and a welcoming mood for the UI layout." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP7lGLl2wBtSDFtwMixxegdpBM20MfX_X6q1Rn1sz1IawXCy_QT3An-VdMCgvHpjowZPxaegP2UvkdW1gwIvjCsT5JCbas-vV3xiQltxlGBLksrwvnaYdfzXjDwEienu5FswN5D0-05EuDMaai-lK9Ul8dIBztDIHSPrSWuFAcv1dw7j1I2c8uKgUNm47YbtoOC4HgCFIfXsuE-jGyhFugDthuqOu7uQZ_KPFGC162YZHumbIz3KCMa0rvMTRK687Jexsqg0eaQfRX"/>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface text-[15px]">Sarah Jenkins</div>
+<div class="font-meta-data text-meta-data text-on-surface-variant">1 day ago • Meetups</div>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 text-[18px]">Tokyo Explorers: Weekend Izakaya Crawl</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-4 mb-4">Anyone in Tokyo this weekend? A few of us are planning an Izakaya crawl in Shinjuku on Friday night. We'll be starting around 7 PM at Omoide Yokocho. All GenTrip members are welcome to join us for drinks and skewers!</p>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant/30 pt-3">
+<div class="flex items-center gap-5 text-on-surface-variant">
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+<span class="font-meta-data text-meta-data">85</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-meta-data text-meta-data">22</span>
+</button>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+</article>
+<!-- Standard Post -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-5 flex flex-col justify-between hover:shadow-md transition-shadow lg:col-span-3 md:col-span-2">
+<div class="flex flex-col md:flex-row gap-5">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-headline-md text-sm">
+                                    D
+                                </div>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface text-[15px]">David Kim</div>
+<div class="font-meta-data text-meta-data text-on-surface-variant">2 days ago • Gear &amp; Tech</div>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 text-[18px]">Best Power Banks for Remote Hiking?</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">I'm heading to Patagonia next month for a 5-day trek and need reliable portable power. Weight is a concern, but so is capacity since I'll be using GPS heavily. Any recommendations for solar vs standard banks?</p>
+<div class="flex items-center justify-between border-t border-outline-variant/30 pt-3">
+<div class="flex items-center gap-5 text-on-surface-variant">
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+<span class="font-meta-data text-meta-data">45</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-meta-data text-meta-data">8</span>
+</button>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- Floating Action Button for New Post -->
+<button class="fixed bottom-24 right-4 md:bottom-8 md:right-8 bg-primary text-on-primary w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:scale-105 transition-transform z-40 md:flex hidden">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="bg-surface-container dark:bg-inverse-surface text-primary dark:text-primary-fixed-dim docked full-width bottom-0 rounded-t-xl shadow-[0px_-4px_12px_rgba(0,0,0,0.05)] dark:shadow-none shadow-lg fixed left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-4 md:hidden">
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-5 py-1.5 hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-all scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-caps text-label-caps mt-1">Plans</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-caps text-label-caps mt-1">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-caps text-label-caps mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

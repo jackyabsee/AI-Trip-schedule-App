@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import ProfileHeader from '../../components/profile/ProfileHeader';
+import ExportPreview from '../../components/profile/ExportPreview';
+import SettingsGroups from '../../components/profile/SettingsGroups';
+import RecentExports from '../../components/profile/RecentExports';
+import AccountSecurity from '../../components/profile/AccountSecurity';
 import LanguageToggle from '../../components/LanguageToggle';
 import MembershipStatus from '../../components/MembershipStatus';
 import { User } from '../../types';
@@ -10,12 +15,12 @@ export default function SettingsScreen() {
     email: 'user@example.com',
     membership: { tier: 'free', updatedAt: new Date().toISOString() },
   });
-  const [lang, setLang] = useState<string>(i18n.locale || 'zh'); // Use i18n.locale as initial value
+  const [lang, setLang] = useState<string>(i18n.locale || 'en');
 
   useEffect(() => {
     (async () => {
       await initLanguage();
-      setLang(i18n.locale); // Always use the actual i18n.locale after init
+      setLang(i18n.locale);
     })();
   }, []);
 
@@ -25,15 +30,21 @@ export default function SettingsScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>{i18n.t('settings')}</Text>
-      <LanguageToggle lang={lang} onChangeLanguage={handleLanguageChange} />
-      <MembershipStatus user={user} onUpdate={setUser} />
-    </View>
+    <ScrollView style={styles.root} contentContainerStyle={{ paddingBottom: 40 }}>
+      <ProfileHeader />
+      <View style={{ marginHorizontal: 18, marginTop: 12 }}>
+        <LanguageToggle lang={lang} onChangeLanguage={handleLanguageChange} />
+      </View>
+      <View style={{ marginHorizontal: 18, marginTop: 12 }}>
+        <MembershipStatus user={user} onUpdate={setUser} />
+      </View>
+
+      <ExportPreview />
+      <SettingsGroups />
+      <RecentExports />
+      <AccountSecurity />
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
-});
+const styles = StyleSheet.create({ root: { flex: 1, backgroundColor: '#F8FAFF' } });

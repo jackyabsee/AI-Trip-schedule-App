@@ -1,35 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
-import HomeHeader from './HomeHeader';
 import HomeSearchBar from './HomeSearchBar';
 import UpcomingTripCard from './UpcomingTripCard';
 import QuickActionGrid from './QuickActionGrid';
 import InterestRail from './InterestRail';
-import BottomNav from './BottomNav';
-import { bottomNavItems, interestCards, quickActions, upcomingTrip } from './homeData';
+import TravelNewsPreview from './TravelNewsPreview';
+import TravelersForumPreview from './TravelersForumPreview';
+import { interestCards, quickActions, upcomingTrip } from './homeData';
+import i18n, { subscribeLanguageChange } from '../../utils/i18n';
 
 export default function HomeScreen() {
+  const [, setLang] = useState<string>(i18n.locale || 'zh');
+
+  useEffect(() => {
+    const unsub = subscribeLanguageChange((lng) => setLang(lng));
+    return unsub;
+  }, []);
+
+  const greeting = i18n.t('home_greeting');
+  const subGreeting = i18n.t('home_sub_greeting');
+  const searchPlaceholder = i18n.t('home_search_placeholder');
+
+  const localizedTrip = {
+    ...upcomingTrip,
+    badge: i18n.t('home_upcoming_badge'),
+    title: i18n.t('home_upcoming_title'),
+    dateRange: i18n.t('home_upcoming_date_range'),
+    duration: i18n.t('home_upcoming_duration'),
+    accommodationLabel: i18n.t('home_upcoming_accommodation_label'),
+    accommodationValue: i18n.t('home_upcoming_accommodation_value'),
+    flightLabel: i18n.t('home_upcoming_flight_label'),
+    flightValue: i18n.t('home_upcoming_flight_value'),
+  };
+
+  const actionLabelKey: Record<string, string> = {
+    plan: 'home_action_plan_new_trip',
+    saved: 'home_action_saved_trips',
+    map: 'home_action_map_explore',
+    language: 'home_action_language',
+  };
+
+  const localizedActions = quickActions.map((a) => ({ ...a, label: i18n.t(actionLabelKey[a.id] ?? a.label) }));
+
+  const localizedInterests = interestCards.map((c) => ({ ...c, title: i18n.t(c.id) }));
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.root}>
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-          <HomeHeader title="GenTrip" />
-
           <View style={styles.greetingBlock}>
-            <Text style={styles.greeting}>Good morning, Alex.</Text>
-            <Text style={styles.subGreeting}>Where to next?</Text>
+            <Text style={styles.greeting}>{greeting}</Text>
+            <Text style={styles.subGreeting}>{subGreeting}</Text>
           </View>
 
-          <HomeSearchBar placeholder="Try 'A weekend in Tokyo' or 'Rome in spring'" />
+          <HomeSearchBar placeholder={searchPlaceholder} />
 
-          <UpcomingTripCard trip={upcomingTrip} />
+          <UpcomingTripCard trip={localizedTrip} />
 
-          <QuickActionGrid actions={quickActions} />
+          <QuickActionGrid actions={localizedActions} />
 
-          <InterestRail title="Explore Interests" interests={interestCards} />
+          {/* Travel news preview section */}
+          <TravelNewsPreview />
+
+          {/* Travelers forum preview */}
+          <TravelersForumPreview />
+
+          <InterestRail title={i18n.t('home_explore_interests')} interests={localizedInterests} />
         </ScrollView>
-
-        <BottomNav items={bottomNavItems} />
       </View>
     </SafeAreaView>
   );
