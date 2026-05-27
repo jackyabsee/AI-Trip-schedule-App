@@ -32,18 +32,21 @@ export const VALIDATION_RULES = {
  */
 export const FORM_OPTIONS = {
   travelCompanions: ['solo', 'couple', 'friends', 'family'] as const,
-  destinations: ['Tokyo', 'Osaka', 'Fukuoka', 'unknown'] as const,
+  destinations: ['Tokyo', 'Osaka', 'Fukuoka', 'Other'] as const,
   multiSelect: {
     travelStyle: [
       'leisure', 'packed', 'romantic', 'adventure', 'family_fun', 'religious', 'food', 'cultural', 'ecological', 'urban',
+      'Other',
     ],
     interests: [
       'shopping', 'beauty', 'sports', 'skiing', 'diving', 'hot_springs', 'theme_parks', 'anime', 'art', 'tech', 'history',
+      'Other',
     ],
     dining: [
       'hotpot', 'sushi', 'bbq', 'buffet', 'western', 'chinese', 'cafe', 'vegetarian', 'desserts', 'michelin',
+      'Other',
     ],
-    accommodation: ['ryokan', 'hotel', 'minshuku', 'capsule', 'resort', 'hostel'],
+    accommodation: ['ryokan', 'hotel', 'minshuku', 'capsule', 'resort', 'hostel', 'Other'],
   },
 };
 

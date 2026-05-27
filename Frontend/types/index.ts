@@ -3,7 +3,7 @@ export interface UserInput {
   startDate: string;
   endDate: string;
   duration: number;
-  travelCompanions: 'solo' | 'couple' | 'friends' | 'family';
+  travelCompanions: string;
   destination: string;
   travelStyle: string[];
   interests: string[];
