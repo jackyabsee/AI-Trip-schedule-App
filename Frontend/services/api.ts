@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Hotel, ScheduleItem, User, UserInput } from '../types';
+import { supabase } from '../configs/supabase';
 
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:4000/api';
 
@@ -8,11 +9,18 @@ export const generateSchedule = async (input: UserInput) => {
   return response.data as { schedule: ScheduleItem[]; hotels: Hotel[] };
 };
 
-export const updateMembership = async (userId: string, tier: 'free' | 'premium' | 'vip') => {
-  const response = await axios.patch(`${API_BASE_URL}/users/membership`, { tier }, {
-    headers: { Authorization: `Bearer ${userId}` },
-  });
-  return response.data as { user: User };
+export const updateMembership = async (tier: 'free' | 'premium' | 'vip') => {
+  // Get current session access token from Supabase client and send to backend
+  try {
+    const { data } = await supabase.auth.getSession();
+    const token = (data as any)?.session?.access_token;
+    const response = await axios.patch(`${API_BASE_URL}/users/membership`, { tier }, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data as { user: User };
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const fetchFormOptions = async () => {
