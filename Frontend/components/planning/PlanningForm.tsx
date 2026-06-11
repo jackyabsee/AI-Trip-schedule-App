@@ -12,7 +12,7 @@ import { useRouter } from 'expo-router';
 import i18n from '../../utils/i18n';
 import { UserInput } from '../../types';
 import { generateSchedule } from '../../services/api';
-
+import { useScheduleStore } from '../../store/useScheduleStore';
 
 export default function PlanningForm() {
   const router = useRouter();
@@ -26,6 +26,7 @@ export default function PlanningForm() {
   const [placesToVisit, setPlacesToVisit] = useState('');
   const [accommodation, setAccommodation] = useState<string[]>([]);
   const [travelStyle, setTravelStyle] = useState<string[]>([]);
+  const setGeneratedData = useScheduleStore((state) => state.setGeneratedData);
 
   function toggleInterest(id: string) {
     setInterests((s) => {
@@ -80,19 +81,31 @@ export default function PlanningForm() {
         if (id) {
           router.push({ pathname: '/(tabs)/schedule-detail', params: { scheduleId: String(id) } });
         } else if (res?.schedule || res?.summary) {
-          router.push({ pathname: '/(tabs)/schedule-detail', params: { generated: JSON.stringify({ schedule: res.schedule || res?.payload?.schedule, hotels: res.hotels || res?.payload?.hotels, summary: res.summary || res?.payload?.summary, destination: input.destination, startDate: input.startDate, endDate: input.endDate, numTourists: input.numTourists }) } });
+          
+          // 3. Save the massive JSON payload directly into memory
+          setGeneratedData({
+            schedule: res.schedule || res?.payload?.schedule,
+            hotels: res.hotels || res?.payload?.hotels,
+            summary: res.summary || res?.payload?.summary,
+            destination: input.destination,
+            startDate: input.startDate,
+            endDate: input.endDate,
+            numTourists: input.numTourists
+          });
+
+          // 4. Navigate WITHOUT the heavy payload. We pass a simple flag instead.
+          router.push({ pathname: '/(tabs)/schedule-detail', params: { isGenerated: 'true' } });
+          
         } else {
           setError('Failed to generate schedule');
         }
       })
       .catch((err) => {
-        // eslint-disable-next-line no-console
         console.error('Generate schedule error', err?.response?.data ?? err?.message ?? err);
-        const msg = err?.response?.data?.error || err?.message || 'Failed to generate schedule';
-        setError(msg);
+        setError(err?.response?.data?.error || err?.message || 'Failed to generate schedule');
       })
       .finally(() => setLoading(false));
-  };
+};
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

@@ -1,41 +1,51 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { SafeAreaView, ActivityIndicator, View, Text } from 'react-native';
+import { useRouter, useLocalSearchParams, useSearchParams as _useSearchParams } from 'expo-router';
 import ScheduleDetail from '../../components/schedule/ScheduleDetail';
 import { fetchScheduleById } from '../../services/api';
+
+// 1. Import the store
+import { useScheduleStore } from '../../store/useScheduleStore';
 
 export default function ScheduleDetailPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any>(null);
+  const [rowId, setRowId] = useState<number | null>(null);
+
+  // Grab the data from memory
+  const generatedData = useScheduleStore((state) => state.generatedData);
+
+  const params = typeof useLocalSearchParams === 'function' ? useLocalSearchParams() : _useSearchParams();
+  const scheduleId = params?.scheduleId as string | undefined;
+  
+  // Look for the flag we passed in the router
+  const isGenerated = params?.isGenerated === 'true';
 
   useEffect(() => {
-    // read search params directly
-    const sp = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
-    const scheduleId = sp.get('scheduleId');
-    const generated = sp.get('generated');
-
     (async () => {
+      setLoading(true);
       try {
-        if (generated) {
-          const parsed = JSON.parse(generated);
-          setData(parsed);
+        if (isGenerated && generatedData) {
+          // 2. Safely pull the massive object directly from Zustand
+          setData(generatedData);
         } else if (scheduleId) {
           const res = await fetchScheduleById(String(scheduleId));
-          // server returns row with payload.deepseekResponse
           const deep = res?.payload?.deepseekResponse || res?.deepseekResponse || res;
           setData(deep);
+          setRowId(res?.id ?? null);
+        } else {
+          setData(null);
         }
       } catch (err) {
-        // ignore
+        console.error("Error loading schedule data", err);
       } finally {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [scheduleId, isGenerated, generatedData]);
 
-  if (loading) return <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator /></SafeAreaView>;
+  if (loading) return <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator size="large" color="#0B51F1" /></SafeAreaView>;
   if (!data) return <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Text>No schedule data</Text></SafeAreaView>;
 
   return (
@@ -48,6 +58,7 @@ export default function ScheduleDetailPage() {
         summary={data?.summary}
         schedule={data?.schedule}
         hotels={data?.hotels}
+        persistedId={rowId}
       />
     </SafeAreaView>
   );
