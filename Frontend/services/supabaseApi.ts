@@ -24,3 +24,13 @@ export const insertSchedule = async (schedule: any) => {
   if (error) throw error;
   return data;
 };
+
+export const updateSchedule = async (id: number | string, updates: any) => {
+  const { data, error } = await supabase
+    .from('schedules')
+    .update(updates)
+    .eq('id', id)
+    .select();
+  if (error) throw error;
+  return data;
+};

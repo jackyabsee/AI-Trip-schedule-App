@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, SafeAreaView, ScrollView, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import DestinationInput from './DestinationInput';
 import DateRangePicker from './DateRangePicker';
 import TravelersPicker from './TravelersPicker';
@@ -11,6 +11,8 @@ import OptionSelector from './OptionSelector';
 import { useRouter } from 'expo-router';
 import i18n from '../../utils/i18n';
 import { UserInput } from '../../types';
+import { generateSchedule } from '../../services/api';
+
 
 export default function PlanningForm() {
   const router = useRouter();
@@ -68,10 +70,32 @@ export default function PlanningForm() {
       dining: [],
       accommodation: accommodation.map((s) => (s.startsWith('__other::') ? s.split('::')[1] : s)),
       numTourists,
+      language: i18n.locale,
     };
-
-    router.push({ pathname: '/(tabs)/schedule', params: { input: JSON.stringify(input) } });
+    setLoading(true);
+    setError('');
+    generateSchedule(input)
+      .then((res) => {
+        const id = res?.id;
+        if (id) {
+          router.push({ pathname: '/(tabs)/schedule-detail', params: { scheduleId: String(id) } });
+        } else if (res?.schedule || res?.summary) {
+          router.push({ pathname: '/(tabs)/schedule-detail', params: { generated: JSON.stringify({ schedule: res.schedule || res?.payload?.schedule, hotels: res.hotels || res?.payload?.hotels, summary: res.summary || res?.payload?.summary, destination: input.destination, startDate: input.startDate, endDate: input.endDate, numTourists: input.numTourists }) } });
+        } else {
+          setError('Failed to generate schedule');
+        }
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error('Generate schedule error', err?.response?.data ?? err?.message ?? err);
+        const msg = err?.response?.data?.error || err?.message || 'Failed to generate schedule';
+        setError(msg);
+      })
+      .finally(() => setLoading(false));
   };
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -110,13 +134,21 @@ export default function PlanningForm() {
             onToggle={(id) => toggleGeneric(travelStyle, setTravelStyle, id)}
           />
 
-          <TouchableOpacity style={styles.cta} onPress={onSubmit}>
-            <Text style={styles.ctaText}>{i18n.t('generate_schedule')}</Text>
+          <TouchableOpacity style={styles.cta} onPress={onSubmit} disabled={loading}>
+            <Text style={styles.ctaText}>{loading ? i18n.t('generating') || 'Generating...' : i18n.t('generate_schedule')}</Text>
           </TouchableOpacity>
+
+          {error ? <Text style={{ color: 'red', paddingHorizontal: 18, marginTop: 8 }}>{error}</Text> : null}
 
           <Text style={styles.footer}>{i18n.t('plan_footer_text')}</Text>
         </ScrollView>
       </View>
+      {loading && (
+        <View style={styles.loadingOverlay} pointerEvents="none">
+          <ActivityIndicator size="large" color="#fff" />
+          <Text style={styles.loadingText}>{i18n.t('ai_generating') || 'AI is generating your schedule...'}</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -137,4 +169,16 @@ const styles = StyleSheet.create({
   },
   ctaText: { color: '#fff', fontWeight: '700', fontSize: 16 },
   footer: { marginTop: 12, color: '#6B7280', paddingHorizontal: 18, fontSize: 13 },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+  },
+  loadingText: { marginTop: 12, color: '#fff', fontSize: 16 },
 });

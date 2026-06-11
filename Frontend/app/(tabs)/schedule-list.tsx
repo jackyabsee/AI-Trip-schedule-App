@@ -3,7 +3,6 @@ import { SafeAreaView, ScrollView, StyleSheet, View, Text } from 'react-native';
 import HomeSearchBar from '../../components/home/HomeSearchBar';
 import TripFilters from '../../components/tripHistory/TripFilters';
 import TripList from '../../components/tripHistory/TripList';
-import { useRouter } from 'expo-router';
 import { useSearchParams as _useSearchParams } from 'expo-router';
 import ScheduleTable from '../../components/ScheduleTable';
 import { fetchScheduleById } from '../../services/api';
@@ -104,8 +103,6 @@ export default function ScheduleScreen() {
     return () => { mounted = false; };
   }, [mode]);
 
-  const router = useRouter();
-
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.root}>
@@ -116,7 +113,8 @@ export default function ScheduleScreen() {
             loadingHistory ? (
               <Text>Loading history...</Text>
             ) : trips.length ? (
-              <TripList trips={trips} compact onItemPress={(t) => router.push({ pathname: '/(tabs)/schedule-detail', params: { scheduleId: t.id } })} />
+              // TripList expects items with title/dateRange/activities/image
+              <TripList trips={trips} />
             ) : (
               <View style={{ padding: 18 }}>
                 <Text style={{ color: '#6B7280' }}>{emptyTripsNote}</Text>
@@ -125,31 +123,7 @@ export default function ScheduleScreen() {
           ) : (
             schedule ? (
               <>
-                {loading ? (
-                  <Text>Loading schedule...</Text>
-                ) : (
-                  // show a compact title-only card for the upcoming/generated schedule
-                  <TripList
-                    trips={[{
-                      id: scheduleId ? String(scheduleId) : 'generated',
-                      title: (schedule && schedule.length && schedule[0]?.title) || 'Upcoming Trip',
-                    }]}
-                    compact
-                    onItemPress={(t) => {
-                      if (scheduleId) {
-                        router.push({ pathname: '/(tabs)/schedule-detail', params: { scheduleId: t.id } });
-                      } else {
-                        // pass generated schedule via query
-                        try {
-                          const payload = JSON.stringify({ schedule });
-                          router.push({ pathname: '/(tabs)/schedule-detail', params: { generated: payload } });
-                        } catch (e) {
-                          router.push({ pathname: '/(tabs)/schedule-detail' });
-                        }
-                      }
-                    }}
-                  />
-                )}
+                {loading ? <Text>Loading schedule...</Text> : <ScheduleTable schedule={schedule} />}
               </>
             ) : (
               <View style={{ padding: 18 }}>

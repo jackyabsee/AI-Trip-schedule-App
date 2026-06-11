@@ -119,7 +119,7 @@ const navStyles = StyleSheet.create({
 const TITLE_BY_ROUTE: Record<string, string> = {
   index: 'home_title',
   plans: 'home_nav_plans',
-  schedule: 'schedule',
+  'schedule-list': 'schedule',
   settings: 'settings',
   'travel-news': 'travel_news_page_title',
   'travelers-forum': 'forum_page_title',
@@ -128,16 +128,16 @@ const TITLE_BY_ROUTE: Record<string, string> = {
 const LABEL_BY_ROUTE: Record<string, string> = {
   index: 'home_nav_home',
   plans: 'home_nav_plans',
-  schedule: 'home_nav_schedule',
+  'schedule-list': 'home_nav_schedule',
   settings: 'home_nav_settings',
 };
 
-const VISIBLE_ROUTES = new Set(['index', 'plans', 'schedule', 'settings']);
+const VISIBLE_ROUTES = new Set(['index', 'plans', 'schedule-list', 'settings']);
 
 const ICON_BY_ROUTE: Record<string, { iconLibrary: BottomNavItem['iconLibrary']; iconName: string }> = {
   index: { iconLibrary: 'Ionicons', iconName: 'home-outline' },
   plans: { iconLibrary: 'Ionicons', iconName: 'add-circle-outline' },
-  schedule: { iconLibrary: 'Ionicons', iconName: 'calendar-outline' },
+  'schedule-list': { iconLibrary: 'Ionicons', iconName: 'calendar-outline' },
   settings: { iconLibrary: 'Ionicons', iconName: 'settings-outline' },
 };
 
@@ -191,7 +191,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="schedule"
+        name="schedule-list"
         options={{
           title: 'Schedule',
         }}

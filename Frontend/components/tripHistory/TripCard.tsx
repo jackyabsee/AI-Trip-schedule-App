@@ -3,15 +3,25 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface Props {
   title: string;
-  dateRange: string;
-  activities: string;
+  dateRange?: string;
+  activities?: string;
   image?: string;
   badge?: string;
+  onPress?: () => void;
+  compact?: boolean;
 }
 
-export default function TripCard({ title, dateRange, activities, image, badge }: Props) {
+export default function TripCard({ title, dateRange, activities, image, badge, onPress, compact }: Props) {
+  if (compact) {
+    return (
+      <TouchableOpacity style={[styles.card, { padding: 14 }]} activeOpacity={0.9} onPress={onPress}>
+        <Text style={styles.title}>{title}</Text>
+      </TouchableOpacity>
+    );
+  }
+
   return (
-    <TouchableOpacity style={styles.card} activeOpacity={0.9}>
+    <TouchableOpacity style={styles.card} activeOpacity={0.9} onPress={onPress}>
       <View style={styles.imageWrap}>
         <Image source={{ uri: image }} style={styles.image} />
         {badge ? (

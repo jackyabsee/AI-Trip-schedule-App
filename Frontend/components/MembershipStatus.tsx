@@ -13,7 +13,7 @@ const MembershipStatus: React.FC<Props> = ({ user, onUpdate }) => {
   const handleUpgrade = async () => {
     try {
       const newTier = user.membership.tier === 'free' ? 'premium' : 'vip';
-      const response = await updateMembership(user.email, newTier);
+      const response = await updateMembership(newTier);
       onUpdate(response.user);
     } catch (error) {
       console.error('Failed to upgrade membership:', error);

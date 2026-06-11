@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GenTrip - Tokyo Adventure</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-container": "#dfe3ff",
+            "on-secondary": "#ffffff",
+            "primary-container": "#0052ff",
+            "on-secondary-fixed-variant": "#822800",
+            "on-primary-fixed": "#001452",
+            "on-tertiary-fixed-variant": "#891e00",
+            "outline-variant": "#c3c5d9",
+            "error-container": "#ffdad6",
+            "on-surface-variant": "#434656",
+            "surface-tint": "#004ced",
+            "surface-container-highest": "#e1e1ef",
+            "background": "#fbf8ff",
+            "on-tertiary-container": "#ffddd5",
+            "on-surface": "#191b25",
+            "error": "#ba1a1a",
+            "secondary-fixed": "#ffdbcf",
+            "secondary-container": "#fe7e4f",
+            "tertiary-container": "#bf3003",
+            "tertiary": "#952200",
+            "primary-fixed": "#dde1ff",
+            "on-primary-fixed-variant": "#0038b6",
+            "on-secondary-fixed": "#380c00",
+            "primary": "#003ec7",
+            "surface-bright": "#fbf8ff",
+            "surface-dim": "#d9d9e7",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed": "#ffdbd2",
+            "outline": "#737688",
+            "on-secondary-container": "#6b1f00",
+            "on-primary": "#ffffff",
+            "tertiary-fixed-dim": "#ffb4a1",
+            "surface-container-high": "#e7e7f5",
+            "inverse-on-surface": "#f0effe",
+            "secondary-fixed-dim": "#ffb59c",
+            "surface-variant": "#e1e1ef",
+            "surface-container-lowest": "#ffffff",
+            "on-background": "#191b25",
+            "primary-fixed-dim": "#b7c4ff",
+            "on-error-container": "#93000a",
+            "surface-container-low": "#f3f2ff",
+            "secondary": "#a43c12",
+            "surface-container": "#ededfb",
+            "surface": "#fbf8ff",
+            "on-tertiary-fixed": "#3c0800",
+            "inverse-surface": "#2e303a",
+            "inverse-primary": "#b7c4ff",
+            "on-error": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "card-gap": "12px",
+            "unit": "8px",
+            "gutter": "16px",
+            "container-padding-mobile": "16px",
+            "container-padding-desktop": "24px"
+          },
+          "fontFamily": {
+            "label-caps": ["Inter"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "body-lg": ["Inter"],
+            "meta-data": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+            "display-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+            "display-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+            "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+            "meta-data": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+            "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+            "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-scrollbar::-webkit-scrollbar { display: none; }
+    .custom-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .timeline-line {
+      position: absolute;
+      left: 23px;
+      top: 40px;
+      bottom: -20px;
+      width: 2px;
+      background-image: linear-gradient(to bottom, #004ced 50%, transparent 50%);
+      background-size: 2px 10px;
+    }
+    .card-shadow {
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-lg text-body-lg antialiased pb-24">
+<!-- Top AppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center h-16 px-container-padding-mobile md:px-container-padding-desktop bg-surface dark:bg-on-background">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container transition-colors rounded-full active:scale-95 duration-150">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg font-bold text-primary tracking-tight">GenTrip</h1>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed">
+<img alt="User Profile Photo" class="w-full h-full object-cover" data-alt="A professional headshot of a friendly man with short brown hair and a slight smile. He is positioned against a clean, neutral studio background with soft cinematic lighting. The image maintains a high-quality, modern minimalist aesthetic consistent with a premium travel application's user interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgaC8-DMhs5f1M-kk1QuuUjw-m_Fl_3FIWU5FG4g15-aXL_9fTBJFh85P1Z7lS4IBYfz6OzhjF-06dUgZc0Vyt19-0ZU2FE1v8bBXs79Qq01_eL2e57LHC_17uLa1ATqZXVFI4lRVAhmUmNUsgJbllSKTG7qYoS1-yX4ILkcXlaT0CFpaf5q5MyW7_p_HKRNElX_On-Tmh0eDGktElFYGq21IR4LXujEYL6SBEY5ow-icJt8IO4U8hH8L58M0CKll5BVh5G6xfQs7W"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="mt-16 max-w-5xl mx-auto px-container-padding-mobile md:px-container-padding-desktop py-6">
+<!-- Hero Header -->
+<section class="mb-8 relative overflow-hidden rounded-xl p-8 bg-primary-container text-on-primary-container">
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-2">
+<span class="inline-block px-3 py-1 bg-white/20 rounded-full font-label-caps text-label-caps">3-DAY ITINERARY</span>
+<button class="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 transition-colors rounded-full font-label-caps text-label-caps active:scale-95">
+<span class="material-symbols-outlined text-sm">edit</span> EDIT TRIP
+          </button>
+</div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-2">Tokyo Adventure</h2>
+<div class="flex flex-wrap items-center gap-4 text-white/80 font-meta-data text-meta-data">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">calendar_today</span> Oct 12 - Oct 14, 2023
+          </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">group</span> 2 Travelers
+          </div>
+</div>
+<p class="mt-4 max-w-xl text-white/90 font-body-sm text-body-sm opacity-90 leading-relaxed">
+          Experience the ultimate contrast between ancient tradition and futuristic urban life. Explore neon-lit streets, serene shrines, and world-class culinary wonders.
+        </p>
+</div>
+<!-- Atmospheric Background Decor -->
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-20 pointer-events-none">
+</div>
+</section>
+<!-- Day Selector (Tabs) -->
+<nav class="flex gap-4 mb-8 overflow-x-auto custom-scrollbar pb-2 sticky top-16 bg-background/95 backdrop-blur-md z-40 py-4">
+<button class="flex flex-col items-center justify-center min-w-[100px] bg-primary-container text-on-primary-container rounded-xl px-6 py-3 transition-all scale-90 duration-200">
+<span class="font-label-caps text-label-caps">DAY 1</span>
+<span class="font-meta-data text-meta-data opacity-70">Oct 12</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[100px] bg-surface-container-high text-on-surface-variant rounded-xl px-6 py-3 hover:bg-surface-variant transition-all">
+<span class="font-label-caps text-label-caps">DAY 2</span>
+<span class="font-meta-data text-meta-data opacity-70">Oct 13</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[100px] bg-surface-container-high text-on-surface-variant rounded-xl px-6 py-3 hover:bg-surface-variant transition-all">
+<span class="font-label-caps text-label-caps">DAY 3</span>
+<span class="font-meta-data text-meta-data opacity-70">Oct 14</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[100px] border-2 border-dashed border-outline-variant text-outline rounded-xl px-6 py-3 hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+</nav>
+<!-- Itinerary Grid -->
+<div class="space-y-card-gap relative">
+<!-- Timeline Connection -->
+<div class="hidden md:block timeline-line ml-3"></div>
+<!-- Activity: Hotel Check-in -->
+<div class="flex gap-4 items-start relative">
+<div class="z-10 bg-primary text-on-primary w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 card-shadow">
+<span class="material-symbols-outlined">hotel</span>
+</div>
+<div class="flex-grow glass-effect p-5 rounded-xl card-shadow border border-outline-variant/10 hover:border-primary/20 transition-all flex flex-col md:flex-row gap-4 items-center relative">
+<div class="absolute left-2 top-1/2 -translate-y-1/2 text-outline opacity-40 cursor-grab active:cursor-grabbing">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="flex-grow pl-6">
+<div class="flex justify-between items-start mb-1">
+<div class="flex items-center gap-2">
+<span class="font-meta-data text-meta-data text-primary uppercase font-bold tracking-wider">10:00 AM</span>
+<span class="px-2 py-0.5 bg-secondary-fixed text-on-secondary-fixed-variant rounded text-[10px] font-bold">STAY</span>
+<span class="text-[10px] font-bold text-outline uppercase tracking-tight">Est. ¥0</span>
+</div>
+<button class="p-1 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant text-base">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Check-in at Hotel Gracery</h3>
+<p class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-sm">location_on</span> Shinjuku City, Tokyo
+    </p>
+</div>
+<div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Hotel Interior" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS8EO38g5IPxUGUUhnR3sWTr_TPg99imy6WuJMgRMlB5yIILVa652XEWKBXEDcWItQhb3A95htOAeJiO15zCx9Ub4WzipgxP-ZQjkE3PVBXY4_YCZ7e7cLPG8Sn5pjxK4I8YD-AXcEZcLAptOCcx8OT57LyrCcokHq2P2nleIpSsI4SifFArizo-ZZGqXb7k8NcXhALIJwocw60ZqaG3bnPSy7rdaDpjLbA3z2yULp901lXaYTYBg0HO5EAv2e0Pt5-bUV2_NLnRQb"/>
+</div>
+</div>
+</div>
+<!-- Transport Segment -->
+<div class="flex gap-4 items-start relative">
+<div class="z-10 bg-surface-container-high text-on-surface-variant w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined">directions_subway</span>
+</div>
+<div class="flex-grow py-3 px-5 border-l-2 border-primary-fixed-dim bg-primary-fixed/10 rounded-r-lg">
+<div class="flex justify-between items-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">Local Transport: Shinjuku to Asakusa</p>
+<span class="font-meta-data text-meta-data text-outline">35 min • ¥280</span>
+</div>
+</div>
+</div>
+<!-- Activity: Senso-ji -->
+<div class="flex gap-4 items-start relative">
+<div class="z-10 bg-tertiary text-on-tertiary w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 card-shadow">
+<span class="material-symbols-outlined">temple_buddhist</span>
+</div>
+<div class="flex-grow glass-effect p-5 rounded-xl card-shadow border border-outline-variant/10 hover:border-primary/20 transition-all flex flex-col md:flex-row gap-4 items-center relative">
+<div class="absolute left-2 top-1/2 -translate-y-1/2 text-outline opacity-40 cursor-grab active:cursor-grabbing">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="flex-grow w-full pl-6">
+<div class="flex justify-between items-start mb-1">
+<div class="flex items-center gap-2">
+<span class="font-meta-data text-meta-data text-tertiary uppercase font-bold tracking-wider">11:30 AM</span>
+<span class="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded text-[10px] font-bold">CULTURE</span>
+<span class="text-[10px] font-bold text-outline uppercase tracking-tight">Free</span>
+</div>
+<button class="p-1 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant text-base">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Senso-ji Temple Visit</h3>
+<p class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm mb-3">
+<span class="material-symbols-outlined text-sm">location_on</span> Asakusa, Taito City
+    </p>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-full text-[11px] font-medium">Free Entry</span>
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-full text-[11px] font-medium">Iconic Landmark</span>
+</div>
+</div>
+<div class="w-full md:w-32 h-24 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Senso-ji Temple" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlysH7pBlJEP-F-97_XJfE7r8cCbiWMMxFkIMrCywbYG_yXVJQCch7z6sVT_EIVvP8dl3gFMyeVM2LdfWMccU9j9RDKLn6MiLUVy06Z-y7FMQtWetW0r2qSpiLhlv4yigCRtf0jGTLxNdninsA36NJQ2NmNeR9OideG82IQ6F-lVUZOdxJXYYRAONfuxNMcdA0erSAD61FwHxzg2lckyywThmcodqxWhgqBLQfSt9BwLepVV6XI4lUsM_6dwDbV4oV22DSh7CXx6Ik"/>
+</div>
+</div>
+</div>
+<!-- Activity: Shibuya Crossing -->
+<div class="flex gap-4 items-start relative">
+<div class="z-10 bg-primary-container text-on-primary-container w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 card-shadow">
+<span class="material-symbols-outlined">camera</span>
+</div>
+<div class="flex-grow glass-effect p-5 rounded-xl card-shadow border border-outline-variant/10 hover:border-primary/20 transition-all flex flex-col md:flex-row gap-4 items-center relative">
+<div class="absolute left-2 top-1/2 -translate-y-1/2 text-outline opacity-40 cursor-grab active:cursor-grabbing">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="flex-grow w-full pl-6">
+<div class="flex justify-between items-start mb-1">
+<div class="flex items-center gap-2">
+<span class="font-meta-data text-meta-data text-primary-fixed-dim uppercase font-bold tracking-wider">04:00 PM</span>
+<span class="px-2 py-0.5 bg-primary-fixed text-on-primary-fixed-variant rounded text-[10px] font-bold">EXPLORE</span>
+<span class="text-[10px] font-bold text-outline uppercase tracking-tight">Est. ¥2,500</span>
+</div>
+<button class="p-1 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant text-base">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Shibuya Crossing</h3>
+<p class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm mb-3">
+<span class="material-symbols-outlined text-sm">location_on</span> Shibuya City
+    </p>
+<p class="text-on-surface-variant font-body-sm text-body-sm line-clamp-2">The world's busiest pedestrian scramble. Head to the Starbucks or Mag's Park for the best aerial views.</p>
+</div>
+<div class="w-full md:w-32 h-24 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Shibuya Crossing" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlTS6f_d65tLvM5wJdeLqocJ-gaArsimEt2WF-AAITUWjy3rLicrNAfW8l2oZSdoS5GhOHvcrsRPqOY2smbaHoL349e30BEx5eKqBVpoTrAd6iuCJv_pTub_73xXzOkX3Pjpma0XqeVAyZ8bGwL5hqZNfyoghq-X5ilFZvRLehzMP4CJLuYkrLaAki8uswN0AZaIFWo4eW2O2e_m0rBLzWDDmv8oSQ3C3IwQlSv8lkMGFm_k_o-wUBRy4NfVHq6C6oHtKyEawffxji"/>
+</div>
+</div>
+</div>
+<!-- Floating Action Button for Add Activity -->
+<div class="flex justify-center pt-8">
+<button class="flex items-center gap-2 px-8 py-4 bg-primary text-on-primary rounded-full font-bold shadow-lg hover:shadow-primary/40 active:scale-95 transition-all">
+<span class="material-symbols-outlined">add_circle</span>
+          ADD ACTIVITY
+        </button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-4 bg-surface-container dark:bg-inverse-surface shadow-[0px_-4px_12px_rgba(0,0,0,0.05)] dark:shadow-none rounded-t-xl">
+<!-- Home (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<!-- Plans (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-caps text-label-caps">Plans</span>
+</a>
+<!-- History (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-caps text-label-caps">History</span>
+</a>
+<!-- Profile (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-caps text-label-caps">Profile</span>
+</a>
+</nav>
+<script>
+    // Simple micro-interaction for cards
+    document.querySelectorAll('.glass-effect').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-2px)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+      });
+    });
+
+    // Handle active state for Day Tabs
+    const tabs = document.querySelectorAll('nav button');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('bg-primary-container', 'text-on-primary-container', 'scale-90');
+          t.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+        });
+        tab.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+        tab.classList.add('bg-primary-container', 'text-on-primary-container', 'scale-90');
+      });
+    });
+  </script>
+</body></html>

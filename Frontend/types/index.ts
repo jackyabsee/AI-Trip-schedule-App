@@ -9,6 +9,7 @@ export interface UserInput {
   interests: string[];
   dining: string[];
   accommodation: string[];
+  language?: string;
   numTourists?: number; // change from string to number
 }
 
