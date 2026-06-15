@@ -1,0 +1,43 @@
+// configs/supabase.ts
+import 'react-native-url-polyfill/auto';
+import { createClient } from '@supabase/supabase-js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
+
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL as string;
+const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY as string;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn("Supabase URL or Anon Key is missing. Check your .env file.");
+}
+
+// 1. Create a safe storage adapter for Expo SSR
+const safeStorage = {
+  getItem: (key: string) => {
+    if (Platform.OS === 'web' && typeof window === 'undefined') {
+      return Promise.resolve(null);
+    }
+    return AsyncStorage.getItem(key);
+  },
+  setItem: (key: string, value: string) => {
+    if (Platform.OS === 'web' && typeof window === 'undefined') {
+      return Promise.resolve();
+    }
+    return AsyncStorage.setItem(key, value);
+  },
+  removeItem: (key: string) => {
+    if (Platform.OS === 'web' && typeof window === 'undefined') {
+      return Promise.resolve();
+    }
+    return AsyncStorage.removeItem(key);
+  },
+};
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    storage: safeStorage, // 2. Pass the safe storage here
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: false,
+  },
+});

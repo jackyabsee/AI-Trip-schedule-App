@@ -13,6 +13,7 @@ import i18n from '../../utils/i18n';
 import { UserInput } from '../../types';
 import { generateSchedule } from '../../services/api';
 import { useScheduleStore } from '../../store/useScheduleStore';
+import { useAuthStore } from '../../store/useAuthStore';
 
 export default function PlanningForm() {
   const router = useRouter();
@@ -27,6 +28,7 @@ export default function PlanningForm() {
   const [accommodation, setAccommodation] = useState<string[]>([]);
   const [travelStyle, setTravelStyle] = useState<string[]>([]);
   const setGeneratedData = useScheduleStore((state) => state.setGeneratedData);
+  const user = useAuthStore((state) => state.user);
 
   function toggleInterest(id: string) {
     setInterests((s) => {
@@ -58,6 +60,10 @@ export default function PlanningForm() {
   }
 
   const onSubmit = () => {
+    if (!user) {
+      router.push('/auth');
+      return;
+    }
     const duration = computeDuration(startDate, endDate);
     const input: UserInput = {
       budget: Number(budget) || 0,

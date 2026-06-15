@@ -1,6 +1,6 @@
 import React from 'react';
 import { Linking, StyleSheet, Text, View } from 'react-native';
-import { Hotel } from '../types';
+import { Hotel } from '../src/types';
 import i18n from '../utils/i18n';
 
 interface Props {

@@ -5,6 +5,12 @@ import { AuthedRequest } from '../middlewares/auth';
 
 export const generateSchedule = async (req: AuthedRequest, res: Response) => {
   const input = req.body;
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({ error: 'Unauthorized. Please log in to generate a schedule.' });
+  }
+  if (!input || !input.destination) {
+    return res.status(400).json({ error: 'Invalid input: destination required' });
+  }
   if (!input || !input.destination) {
     return res.status(400).json({ error: 'Invalid input: destination required' });
   }
