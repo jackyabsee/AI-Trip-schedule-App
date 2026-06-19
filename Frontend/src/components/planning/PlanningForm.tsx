@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, ScrollView, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import DestinationInput from './DestinationInput';
 import DateRangePicker from './DateRangePicker';
 import TravelersPicker from './TravelersPicker';
@@ -29,6 +30,7 @@ export default function PlanningForm() {
   const [travelStyle, setTravelStyle] = useState<string[]>([]);
   const setGeneratedData = useScheduleStore((state) => state.setGeneratedData);
   const user = useAuthStore((state) => state.user);
+  const [currency, setCurrency] = useState('HKD');
 
   function toggleInterest(id: string) {
     setInterests((s) => {
@@ -66,6 +68,7 @@ export default function PlanningForm() {
     }
     const duration = computeDuration(startDate, endDate);
     const input: UserInput = {
+      currency: currency,
       budget: Number(budget) || 0,
       startDate,
       endDate,
@@ -135,7 +138,7 @@ export default function PlanningForm() {
             }}
           />
           <TravelersPicker value={numTourists} onChange={setNumTourists} />
-          <BudgetInput value={budget} onChange={setBudget} />
+          <BudgetInput value={budget} onChange={setBudget} currency={currency} onCurrencyChange={setCurrency} />
           <SpecificPlacesInput value={placesToVisit} onChange={setPlacesToVisit} />
           <InterestsSelector selected={interests} onToggle={toggleInterest} />
 

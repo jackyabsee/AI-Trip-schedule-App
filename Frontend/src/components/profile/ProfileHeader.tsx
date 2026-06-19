@@ -1,13 +1,19 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import i18n from '../../utils/i18n';
+import { useAuthStore } from '@/src/store/useAuthStore';
 
 export default function ProfileHeader() {
+  const user = useAuthStore((state) => state.user);
+  
+  // Get custom name, fallback to email prefix, fallback to 'Guest'
+  const emailPrefix = user?.email?.split('@')[0] || 'Guest';
+  const displayName = user?.user_metadata?.full_name || emailPrefix;
   return (
     <View style={styles.container}>
       <Image source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD0WgXdFAcifb68crnvOLOUcKYrxXeeQBUupqvDTMNmmQ2V-GHld0RVYPKAltstflTcLXRDR7ujkXX9gi2xNx172T1dWR71FaRvthqVoIbE8am2_u8FWPshLOGR5wsjP2mN-yJgc6iiLRrIz32rtjCuQK0wDgGYeyY9BtFC8FNRlQcc-cnbiYbEQbX6uvoXg-3PFeckCEfPsBw-r6vhtyKAVS9QMqsWev9BUciXSHhMmVMmS4bMfzr4Z_x07ThoERuhifxkzWUiHwzF' }} style={styles.avatar} />
       <View style={styles.info}>
-        <Text style={styles.name}>Alex Thompson</Text>
+        <Text style={styles.name}>{displayName}</Text>
         <Text style={styles.subtitle}>{i18n.t('membership')?.replace('{tier}', 'Premium')}</Text>
         <View style={styles.badges}>
           <View style={styles.badge}><Text style={styles.badgeText}>Explorer Level 4</Text></View>

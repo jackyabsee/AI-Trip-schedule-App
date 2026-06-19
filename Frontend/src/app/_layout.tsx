@@ -1,11 +1,12 @@
 import { Stack } from 'expo-router';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import i18n, { subscribeLanguageChange, initLanguage } from '../utils/i18n';
 import { supabase } from '../configs/supabase';
 import { useAuthStore } from '../store/useAuthStore';
 
 export default function RootLayout() {
-  const [locale, setLocale] = useState(i18n.locale || 'zh');
+  const [locale, setLocale] = useState(i18n.locale || 'zh-TW');
   const setAuth = useAuthStore((state) => state.setAuth);
 
   useEffect(() => {
@@ -39,12 +40,14 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <Stack key={locale}>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="input" options={{ headerShown: false }} />
-      {/* Add the new auth screen route */}
-      <Stack.Screen name="auth" options={{ presentation: 'modal', title: 'Sign In' }} />
-      <Stack.Screen name="+not-found" />
-    </Stack>
+    <SafeAreaProvider>
+      <Stack key={locale}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="input" options={{ headerShown: false }} />
+        {/* Add the new auth screen route */}
+        <Stack.Screen name="auth" options={{ presentation: 'modal', title: 'Sign In' }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+    </SafeAreaProvider>
   );
 }

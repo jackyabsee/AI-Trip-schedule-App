@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import HomeSearchBar from './HomeSearchBar';
 import UpcomingTripCard from './UpcomingTripCard';
 import QuickActionGrid from './QuickActionGrid';
@@ -8,10 +9,11 @@ import TravelNewsPreview from './TravelNewsPreview';
 import TravelersForumPreview from './TravelersForumPreview';
 import { interestCards, quickActions, upcomingTrip } from './homeData';
 import i18n, { subscribeLanguageChange } from '../../utils/i18n';
+import { useAuthStore } from '../../store/useAuthStore';
 
 export default function HomeScreen() {
-  const [, setLang] = useState<string>(i18n.locale || 'zh');
-
+  const [, setLang] = useState<string>(i18n.locale || 'zh-TW');
+  const user = useAuthStore((state) => state.user);
   useEffect(() => {
     const unsub = subscribeLanguageChange((lng) => setLang(lng));
     return unsub;
@@ -20,7 +22,10 @@ export default function HomeScreen() {
   const greeting = i18n.t('home_greeting');
   const subGreeting = i18n.t('home_sub_greeting');
   const searchPlaceholder = i18n.t('home_search_placeholder');
-
+  const emailPrefix = user?.email?.split('@')[0] || '';
+  const displayName = user?.user_metadata?.full_name || emailPrefix;
+  const personalizedGreeting = displayName ? `${greeting} ${displayName}` : greeting;
+  
   const localizedTrip = {
     ...upcomingTrip,
     badge: i18n.t('home_upcoming_badge'),
@@ -49,7 +54,7 @@ export default function HomeScreen() {
       <View style={styles.root}>
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
           <View style={styles.greetingBlock}>
-            <Text style={styles.greeting}>{greeting}</Text>
+            <Text style={styles.greeting}>{personalizedGreeting}</Text>
             <Text style={styles.subGreeting}>{subGreeting}</Text>
           </View>
 

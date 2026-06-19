@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { ScheduleItem } from '../src/types';
+import { ScheduleItem } from '../types';
 import i18n from '../utils/i18n';
 
 interface Props {

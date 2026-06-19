@@ -5,10 +5,15 @@ import { View, Pressable, StyleSheet, Text } from 'react-native';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import type { BottomNavItem } from '../../components/home/homeTypes';
 import i18n, { subscribeLanguageChange } from '../../utils/i18n';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 
 function HomeHeader({ title }: { title: string }) {
+  const insets = useSafeAreaInsets();
+  const topPadding = 8 + (insets.top || 0);
+
   return (
-    <View style={headerStyles.container}>
+    <View style={[headerStyles.container, { paddingTop: topPadding }]}>
       <Pressable hitSlop={10} style={headerStyles.iconButton} onPress={() => {}}>
         <Feather name="compass" size={22} color="#111827" />
       </Pressable>

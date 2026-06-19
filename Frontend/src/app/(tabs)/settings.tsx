@@ -25,7 +25,7 @@ export default function SettingsScreen() {
     email: 'user@example.com',
     membership: { tier: 'free', updatedAt: new Date().toISOString() },
   });
-  const [lang, setLang] = useState<string>(i18n.locale || 'en');
+  const [lang, setLang] = useState<string>(i18n.locale || 'zh-TW');
 
   useEffect(() => {
     (async () => {

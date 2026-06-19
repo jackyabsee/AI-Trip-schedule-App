@@ -3,6 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator,
 import { useRouter } from 'expo-router';
 import { signIn, signUp } from '../services/supabaseAuth';
 import { Ionicons } from '@expo/vector-icons';
+import { supabase } from '../configs/supabase'; 
+import * as Linking from 'expo-linking';
 
 export default function AuthScreen() {
   const router = useRouter();
@@ -54,6 +56,25 @@ export default function AuthScreen() {
     }
   };
 
+  const handleForgotPassword = async () => {
+    if (!email) {
+      Alert.alert('Missing Email', 'Please enter your email address in the box above to reset your password.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: Linking.createURL('/'), // Return to app after clicking email link
+      });
+      if (error) throw error;
+      Alert.alert('Check your inbox', 'A password reset link has been sent to your email.');
+    } catch (error: any) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -90,6 +111,10 @@ export default function AuthScreen() {
             <TouchableOpacity style={styles.secondaryButton} onPress={handleSignUp}>
               <Text style={styles.secondaryButtonText}>Create Account</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.forgotPassword} onPress={handleForgotPassword}>
+              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+            </TouchableOpacity>
           </>
         )}
       </View>
@@ -107,5 +132,7 @@ const styles = StyleSheet.create({
   primaryButton: { backgroundColor: '#0B51F1', height: 54, borderRadius: 12, alignItems: 'center', justifyContent: 'center', marginTop: 8 },
   primaryButtonText: { color: '#fff', fontSize: 16, fontWeight: '700' },
   secondaryButton: { height: 54, borderRadius: 12, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#0B51F1' },
-  secondaryButtonText: { color: '#0B51F1', fontSize: 16, fontWeight: '700' }
+  secondaryButtonText: { color: '#0B51F1', fontSize: 16, fontWeight: '700' },
+  forgotPassword: { marginTop: 12, alignItems: 'center', paddingVertical: 8 },
+  forgotPasswordText: { color: '#0B51F1', fontSize: 14, fontWeight: '600' }
 });

@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { I18n } from 'i18n-js';
 import en from '../assets/translations/en.json';
-import zh from '../assets/translations/zh.json';
+import zhTW from '../assets/translations/zh-TW.json';
 
-const translations = { en, zh };
+const translations = { en, "zh-TW": zhTW };
 const i18n = new I18n(translations)
 
 type LanguageListener = (language: string) => void;
@@ -31,7 +31,7 @@ export const setLanguage = async (language: string) => {
 
 export const initLanguage = async (): Promise<string> => {
   const language = await AsyncStorage.getItem('language');
-  i18n.locale = language || 'zh';
+  i18n.locale = language || 'zh-TW';
   emitLanguageChange(i18n.locale);
   return i18n.locale;
 };

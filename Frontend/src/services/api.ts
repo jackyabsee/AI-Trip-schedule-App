@@ -45,6 +45,21 @@ export const fetchScheduleById = async (id: string) => {
   return res.data as any;
 };
 
+// src/services/api.ts
+// Add this below your fetchScheduleById function
+
+export const updateSchedulePayload = async (id: string, payload: any) => {
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token;
+  
+  const response = await axios.put(
+    `${BASE}/schedule/${id}`,
+    { payload },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  return response.data;
+};
+
 // --- For future dynamic options ---
 // export const fetchFormOptions = async () => {
 //   const response = await axios.get(`${API_BASE_URL}/form/options`);

@@ -122,7 +122,7 @@
   "activities": "活動",
   "notes": "備註",
   "home_title": "GenTrip",
-  "home_greeting": "早安，Alex。",
+  "home_greeting": "你好，",
   "home_sub_greeting": "接下來想去哪裡？",
   "home_search_placeholder": "試試看「東京週末小旅行」或「春天的羅馬」",
   "home_upcoming_section_title": "即將到來的旅程",
@@ -163,5 +163,6 @@
   "home_nav_history": "歷史",
   "home_nav_settings": "設定",
   "start_date": "開始日期",
-  "end_date": "結束日期"
+  "end_date": "結束日期",
+  "ai_generating": "AI 正在生成您的行程表..."
 }

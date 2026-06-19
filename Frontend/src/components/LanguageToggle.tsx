@@ -6,7 +6,7 @@ import languages from '../assets/translations/languages.json';
 
 const LANGUAGE_LABELS: Record<string, string> = {
   en: 'English',
-  zh: '中文'
+  "zh-TW": '中文'
   // Add more if you add more languages, e.g. 'ja': '日本語'
 };
 

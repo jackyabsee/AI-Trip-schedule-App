@@ -3,7 +3,8 @@ import { SafeAreaView, ScrollView, StyleSheet, View, Text } from 'react-native';
 import HomeSearchBar from '../../components/home/HomeSearchBar';
 import TripFilters from '../../components/tripHistory/TripFilters';
 import TripList from '../../components/tripHistory/TripList';
-import { useSearchParams as _useSearchParams } from 'expo-router';
+// 1. Import useRouter
+import { useRouter, useSearchParams as _useSearchParams } from 'expo-router';
 import ScheduleTable from '../../components/ScheduleTable';
 import { fetchScheduleById } from '../../services/api';
 import { ScheduleItem } from '../../types';
@@ -12,6 +13,9 @@ import { getCurrentUser } from '../../services/supabaseAuth';
 
 export default function ScheduleScreen() {
   const [mode, setMode] = useState<'upcoming' | 'past'>('upcoming');
+  // 2. Initialize the router
+  const router = useRouter(); 
+  
   // Some expo-router builds may not expose `useSearchParams` on web; provide a safe fallback
   const useSearchParams = typeof _useSearchParams === 'function'
     ? _useSearchParams
@@ -48,7 +52,6 @@ export default function ScheduleScreen() {
       setLoading(true);
       fetchScheduleById(String(scheduleId))
         .then((res) => {
-          // backend may wrap in payload; support multiple shapes including `deepseekResponse`
           const s =
             res?.payload?.schedule ||
             res?.schedule ||
@@ -64,7 +67,6 @@ export default function ScheduleScreen() {
   }, [scheduleId, generated]);
 
   useEffect(() => {
-    // When in 'past' mode, load saved schedules for current user
     if (mode !== 'past') return;
     let mounted = true;
     (async () => {
@@ -94,7 +96,6 @@ export default function ScheduleScreen() {
         });
         setTrips(mapped);
       } catch (err) {
-        // ignore
         setTrips([]);
       } finally {
         setLoadingHistory(false);
@@ -113,8 +114,11 @@ export default function ScheduleScreen() {
             loadingHistory ? (
               <Text>Loading history...</Text>
             ) : trips.length ? (
-              // TripList expects items with title/dateRange/activities/image
-              <TripList trips={trips} />
+              // 3. Attach the onItemPress event to navigate using the trip ID
+              <TripList 
+                trips={trips} 
+                onItemPress={(trip) => router.push({ pathname: '/(tabs)/schedule-detail', params: { scheduleId: trip.id } })}
+              />
             ) : (
               <View style={{ padding: 18 }}>
                 <Text style={{ color: '#6B7280' }}>{emptyTripsNote}</Text>

@@ -1,4 +1,5 @@
 export interface UserInput {
+  currency: string;
   budget: number;
   startDate: string;
   endDate: string;

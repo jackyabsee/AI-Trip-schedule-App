@@ -7,6 +7,7 @@ interface DeepseekRequestPayload {
   numTourists: number;
   interests: string[];
   budget: number;
+  currency: string;
   travelStyle?: string[];
   accommodation?: string[];
   travelCompanions?: string;
@@ -100,6 +101,7 @@ Trip Details:
 - End Date: ${input.endDate}
 - Total Duration: ${duration} days
 - Budget: $${input.budget}
+- Currency: ${input.currency}
 - Interests: ${input.interests.join(', ')}
 - Travel Style: ${input.travelStyle?.join(', ') || 'General'}
 - Accommodation Preferences: ${input.accommodation?.join(', ') || 'Hotel'}
@@ -114,7 +116,9 @@ Please provide a detailed JSON response with the following structure:
       "time": "09:00",
       "placeName": "Place name",
       "address": "Full address",
-      "price": estimated_price_in_usd,
+      "longitude": 0.0,
+      "latitude": 0.0,
+      "price": estimated_price_in_given_currency,
       "activities": "Activity description",
       "notes": "Any notes"
     }
@@ -131,7 +135,7 @@ Please provide a detailed JSON response with the following structure:
   "summary": "Brief trip summary"
 }
 
-Ensure all prices are realistic and currency is USD.`;
+Ensure all prices are realistic and currency is ${input.currency || 'HKD'}.`;
 }
 
 function parseDeepseekResponse(content: string): DeepseekResponse {

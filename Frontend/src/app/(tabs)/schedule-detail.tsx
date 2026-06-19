@@ -1,25 +1,21 @@
+// src/app/(tabs)/schedule-detail.tsx
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ActivityIndicator, View, Text } from 'react-native';
+import { ActivityIndicator, View, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams, useSearchParams as _useSearchParams } from 'expo-router';
 import ScheduleDetail from '../../components/schedule/ScheduleDetail';
 import { fetchScheduleById } from '../../services/api';
-
-// 1. Import the store
 import { useScheduleStore } from '../../store/useScheduleStore';
 
 export default function ScheduleDetailPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any>(null);
-  const [rowId, setRowId] = useState<number | null>(null);
+  const [rowId, setRowId] = useState<string | null>(null); // changed to string
 
-  // Grab the data from memory
   const generatedData = useScheduleStore((state) => state.generatedData);
-
   const params = typeof useLocalSearchParams === 'function' ? useLocalSearchParams() : _useSearchParams();
   const scheduleId = params?.scheduleId as string | undefined;
-  
-  // Look for the flag we passed in the router
   const isGenerated = params?.isGenerated === 'true';
 
   useEffect(() => {
@@ -27,13 +23,15 @@ export default function ScheduleDetailPage() {
       setLoading(true);
       try {
         if (isGenerated && generatedData) {
-          // 2. Safely pull the massive object directly from Zustand
           setData(generatedData);
         } else if (scheduleId) {
           const res = await fetchScheduleById(String(scheduleId));
-          const deep = res?.payload?.deepseekResponse || res?.deepseekResponse || res;
+          // Extract the nested AI response
+          const deep = res?.payload?.deepseekResponse || res?.deepseekResponse || res?.payload || res;
           setData(deep);
-          setRowId(res?.id ?? null);
+          
+          // Ensure we capture the database row ID
+          setRowId(res?.id || scheduleId); 
         } else {
           setData(null);
         }
@@ -59,6 +57,7 @@ export default function ScheduleDetailPage() {
         schedule={data?.schedule}
         hotels={data?.hotels}
         persistedId={rowId}
+        rawPayload={data} // <-- CRITICAL: Pass the full object so we don't lose data on save
       />
     </SafeAreaView>
   );

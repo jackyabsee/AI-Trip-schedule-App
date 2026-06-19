@@ -29,10 +29,14 @@ function pad(n: number) {
 
 export default function DateRangePicker({ visible, inline = false, initialStart, initialEnd, onCancel, onConfirm }: Props) {
   const today = new Date();
+  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
   const [view, setView] = useState<Date>(startOfMonth(today));
 
-  const initStart = initialStart ? new Date(initialStart) : null;
-  const initEnd = initialEnd ? new Date(initialEnd) : null;
+  let initStart = initialStart ? new Date(initialStart) : null;
+  let initEnd = initialEnd ? new Date(initialEnd) : null;
+  // prevent using past or present day as initial values
+  if (initStart && initStart.getTime() <= todayStart.getTime()) initStart = null;
+  if (initEnd && initEnd.getTime() <= todayStart.getTime()) initEnd = null;
 
   const [start, setStart] = useState<Date | null>(initStart);
   const [end, setEnd] = useState<Date | null>(initEnd);
@@ -53,6 +57,9 @@ export default function DateRangePicker({ visible, inline = false, initialStart,
   function onDayPress(day: number | null) {
     if (day === null) return;
     const dt = new Date(view.getFullYear(), view.getMonth(), day);
+    // disallow selecting today or any past day
+    if (dt.getTime() <= todayStart.getTime()) return;
+
     if (!start || (start && end)) {
       setStart(dt);
       setEnd(null);
@@ -113,9 +120,21 @@ export default function DateRangePicker({ visible, inline = false, initialStart,
               const active = isInRange(cellDate);
               const isStart = start && cellDate.getTime() === start.getTime();
               const isEnd = end && cellDate.getTime() === end.getTime();
+              const disabled = cellDate.getTime() <= todayStart.getTime();
               return (
-                <Pressable key={ci} style={[styles.dayCell, active && styles.dayCellActive, isStart && styles.dayCellStart, isEnd && styles.dayCellEnd]} onPress={() => onDayPress(d)}>
-                  <Text style={[styles.dayText, (isStart || isEnd) && styles.dayTextActive]}>{d}</Text>
+                <Pressable
+                  key={ci}
+                  style={[
+                    styles.dayCell,
+                    active && styles.dayCellActive,
+                    isStart && styles.dayCellStart,
+                    isEnd && styles.dayCellEnd,
+                    disabled && styles.dayCellDisabled,
+                  ]}
+                  onPress={() => onDayPress(d)}
+                  disabled={disabled}
+                >
+                  <Text style={[styles.dayText, (isStart || isEnd) && styles.dayTextActive, disabled && styles.dayTextDisabled]}>{d}</Text>
                 </Pressable>
               );
             })}
@@ -153,6 +172,8 @@ container: { paddingHorizontal: 18, marginTop: 12 },
   dayCellEnd: { backgroundColor: '#0B51F1' },
   dayText: { color: '#111827' },
   dayTextActive: { color: '#fff', fontWeight: '700' },
+  dayCellDisabled: { opacity: 0.35 },
+  dayTextDisabled: { color: '#9CA3AF' },
   summaryRow: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 },
   summary: { color: '#374151' },
   summarySmall: { color: '#6B7280', marginTop: 6 },

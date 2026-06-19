@@ -35,6 +35,7 @@ export const generateSchedule = async (req: AuthedRequest, res: Response) => {
       numTourists: input.numTourists,
       interests: input.interests || [],
       budget: Number(input.budget) || 0,
+      currency: input.currency || 'HKD',
       travelStyle: input.travelStyle || [],
       accommodation: input.accommodation || [],
       travelCompanions: input.travelCompanions || '',
@@ -55,6 +56,7 @@ export const generateSchedule = async (req: AuthedRequest, res: Response) => {
     const message = err?.message || 'Failed to generate schedule';
     return res.status(500).json({ error: message });
   }
+  console.log("Deepseek Response:", deepseekResponse);
 
   // Persist schedule to database if user authenticated
   if (req.user && req.user.id) {
@@ -101,5 +103,30 @@ export const getSchedule = async (req: AuthedRequest, res: Response) => {
     // eslint-disable-next-line no-console
     console.error('Get schedule error:', { message: err?.message ?? err, stack: err?.stack });
     return res.status(500).json({ error: err?.message || 'Failed to fetch schedule' });
+  }
+};
+
+export const updateSchedule = async (req: AuthedRequest, res: Response) => {
+  try {
+    console.log('Received schedule update request:', { params: req.params, body: req.body, userId: req.user?.id ?? null });
+    const { id } = req.params;
+    const { payload } = req.body; // The modified JSON from the frontend
+
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { data, error } = await supabaseServer
+      .from('schedules')
+      .update({ payload })
+      .eq('id', id)
+      .eq('user_id', req.user.id) // Security check: Ensure they own it
+      .select()
+      .single();
+
+    if (error) throw error;
+    res.json(data);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
   }
 };
