@@ -69,6 +69,7 @@ export const generateSchedule = async (req: AuthedRequest, res: Response) => {
         end_date: input.endDate || null,
         duration,
         payload: { input, deepseekResponse },
+        title: deepseekResponse?.title || '我的專屬旅遊行程',
       };
 
       const { data, error } = await supabaseServer.from('schedules').insert([payload]).select('id');
@@ -93,6 +94,7 @@ export const generateSchedule = async (req: AuthedRequest, res: Response) => {
 export const getSchedule = async (req: AuthedRequest, res: Response) => {
   try {
     const { id } = req.params;
+    console.log('Received get schedule request:', { scheduleId: id, userId: req.user?.id ?? null });
     if (!id) return res.status(400).json({ error: 'Schedule ID required' });
     if (!req.user || !req.user.id) return res.status(401).json({ error: 'Unauthorized' });
 
@@ -110,7 +112,7 @@ export const updateSchedule = async (req: AuthedRequest, res: Response) => {
   try {
     console.log('Received schedule update request:', { params: req.params, body: req.body, userId: req.user?.id ?? null });
     const { id } = req.params;
-    const { payload } = req.body; // The modified JSON from the frontend
+    const { payload,title } = req.body; // The modified JSON from the frontend
 
     if (!req.user || !req.user.id) {
       return res.status(401).json({ error: 'Unauthorized' });
@@ -118,7 +120,7 @@ export const updateSchedule = async (req: AuthedRequest, res: Response) => {
 
     const { data, error } = await supabaseServer
       .from('schedules')
-      .update({ payload })
+      .update({ payload ,title})
       .eq('id', id)
       .eq('user_id', req.user.id) // Security check: Ensure they own it
       .select()

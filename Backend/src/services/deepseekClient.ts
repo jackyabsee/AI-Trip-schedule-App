@@ -38,6 +38,7 @@ interface DeepseekResponse {
   schedule: ScheduleDay[];
   hotels: Hotel[];
   summary?: string;
+  title: string;
 }
 
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
@@ -90,53 +91,66 @@ export const callDeepseek = async (input: DeepseekRequestPayload): Promise<Deeps
 };
 
 function buildPrompt(input: DeepseekRequestPayload): string {
-  const duration = calculateDuration(input.startDate, input.endDate);
-  const languageNote = input.language ? `Respond in ${input.language} and use appropriate phrasing for that language.` : '';
-  return `Generate a ${duration}-day travel itinerary for ${input.numTourists} tourists visiting ${input.destination}.
+let prompt = `You are an expert, local travel planner. Your task is to design a logical, highly realistic, and memorable travel itinerary.\n\n`;
+  
+  prompt += `Trip Details:\n`;
+  prompt += `- Destination: ${input.destination}\n`;
+  prompt += `- Dates: ${input.startDate} to ${input.endDate}\n`;
+  prompt += `- Travelers: ${input.numTourists} (${input.travelCompanions || 'Friends/Family'})\n`;
+  prompt += `- Total Budget: ${input.budget} ${input.currency || 'HKD'} (excluding flights)\n`;
+  
+  if (input.interests && input.interests.length > 0) {
+    prompt += `- Interests: ${input.interests.join(', ')}\n`;
+  }
+  if (input.travelStyle && input.travelStyle.length > 0) {
+    prompt += `- Travel Style: ${input.travelStyle.join(', ')}\n`;
+  }
+  if (input.accommodation && input.accommodation.length > 0) {
+    prompt += `- Preferred Accommodation: ${input.accommodation.join(', ')}\n`;
+  }
+  if (input.startingPlace) {
+    prompt += `- Starting Point: ${input.startingPlace}\n`;
+  }
+  if (input.placesToVisit) {
+    prompt += `- Must-Visit Places: ${input.placesToVisit}\n`;
+  }
 
-${languageNote}
+  // 2. Constraints & Logistics
+  prompt += `\nGuidelines for the Itinerary:\n`;
+  prompt += `1. Factor in realistic travel times between locations.\n`;
+  prompt += `2. Do not overcrowd the days; maintain a comfortable pace suitable for the travel style.\n`;
+  prompt += `3. Keep estimated prices highly realistic for the current year in ${input.currency || 'HKD'}.\n`;
+  prompt += `4. Provide all text, names, and descriptions in the following language: ${input.language || 'zh-TW'}.\n`;
 
-Trip Details:
-- Start Date: ${input.startDate}
-- End Date: ${input.endDate}
-- Total Duration: ${duration} days
-- Budget: $${input.budget}
-- Currency: ${input.currency}
-- Interests: ${input.interests.join(', ')}
-- Travel Style: ${input.travelStyle?.join(', ') || 'General'}
-- Accommodation Preferences: ${input.accommodation?.join(', ') || 'Hotel'}
-${input.startingPlace ? `- Starting from: ${input.startingPlace}` : ''}
-${input.placesToVisit ? `- Must visit: ${input.placesToVisit}` : ''}
-
-Please provide a detailed JSON response with the following structure:
-{
+  // 3. Strict JSON Output Formatting (Including the new Title field)
+  prompt += `\nCRITICAL: You MUST respond ONLY with a raw, valid JSON object. Do NOT wrap the JSON in Markdown formatting (no \`\`\`json tags). Do NOT include any conversational text before or after the JSON. Use the exact structure below:\n`;
+  
+  prompt += `{
+  "title": "A catchy, descriptive name for this trip (e.g., 'Tokyo 5-Day Tech & Anime Tour')",
+  "summary": "A brief overview of the trip's pacing, highlights, and any important local tips.",
   "schedule": [
     {
       "day": 1,
       "time": "09:00",
-      "placeName": "Place name",
-      "address": "Full address",
-      "longitude": 0.0,
-      "latitude": 0.0,
-      "price": estimated_price_in_given_currency,
-      "activities": "Activity description",
-      "notes": "Any notes"
+      "placeName": "Exact name of the location",
+      "address": "Full physical address",
+      "price": 150,
+      "activities": "Detailed description of what to do, eat, or see here.",
+      "notes": "Travel tips, transport advice, or warnings (e.g., 'Book tickets 2 weeks in advance')."
     }
   ],
   "hotels": [
     {
-      "name": "Hotel name",
-      "address": "Address",
-      "type": "hotel/hostel/resort/other",
-      "pricePerNight": estimated_price,
-      "bookingUrl": "booking_link_or_empty_string"
+      "name": "Recommended Hotel Name",
+      "address": "Hotel Address",
+      "type": "hotel/hostel/resort",
+      "pricePerNight": 800,
+      "bookingUrl": "Leave empty if unknown"
     }
-  ],
-  "summary": "Brief trip summary"
-}
+  ]
+}`;
 
-Ensure all prices are realistic and currency is ${input.currency || 'HKD'}.`;
-}
+  return prompt;}
 
 function parseDeepseekResponse(content: string): DeepseekResponse {
   const jsonMatch = content.match(/\{[\s\S]*\}/);
@@ -152,6 +166,7 @@ function parseDeepseekResponse(content: string): DeepseekResponse {
       schedule: parsed.schedule || [],
       hotels: parsed.hotels || [],
       summary: parsed.summary,
+      title: parsed.title || '我的專屬旅遊行程',
     };
   } catch (err: any) {
     // eslint-disable-next-line no-console

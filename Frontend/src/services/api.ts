@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { Hotel, ScheduleItem, User, UserInput } from '../types';
+import { Hotel, ScheduleItem, User, UserInput , GeneratedTripData} from '../types';
 import { supabase } from '../configs/supabase';
 
-const BASE = process.env.API_BASE_URL || 'http://localhost:4000/api';
+const BASE = process.env.EXPO_PUBLIC_API_BASE_URL || 'http://172.28.160.33:4000/api';
 
 const buildHeaders = async () => {
   const { data } = await supabase.auth.getSession();
@@ -16,7 +16,7 @@ export const generateSchedule = async (payload: UserInput) => {
   const url = `${BASE}/schedule/generate`;
   const headers = await buildHeaders();
   const res = await axios.post(url, payload, { headers });
-  return res.data as { schedule?: ScheduleItem[]; hotels?: Hotel[]; id?: string | number };
+  return res.data as GeneratedTripData & { id?: string | number };
 };
 
 export const updateMembership = async (tier: 'free' | 'premium' | 'vip') => {
@@ -48,13 +48,13 @@ export const fetchScheduleById = async (id: string) => {
 // src/services/api.ts
 // Add this below your fetchScheduleById function
 
-export const updateSchedulePayload = async (id: string, payload: any) => {
+export const updateSchedulePayload = async (id: string, payload: any, title: string) => {
   const { data: { session } } = await supabase.auth.getSession();
   const token = session?.access_token;
   
   const response = await axios.put(
     `${BASE}/schedule/${id}`,
-    { payload },
+    { payload, title },
     { headers: { Authorization: `Bearer ${token}` } }
   );
   return response.data;

@@ -3,7 +3,7 @@ import { SafeAreaView, ScrollView, StyleSheet, View, Text } from 'react-native';
 import HomeSearchBar from '../../components/home/HomeSearchBar';
 import TripFilters from '../../components/tripHistory/TripFilters';
 import TripList from '../../components/tripHistory/TripList';
-// 1. Import useRouter
+// 加入 useRouter 以支援導航
 import { useRouter, useSearchParams as _useSearchParams } from 'expo-router';
 import ScheduleTable from '../../components/ScheduleTable';
 import { fetchScheduleById } from '../../services/api';
@@ -13,9 +13,8 @@ import { getCurrentUser } from '../../services/supabaseAuth';
 
 export default function ScheduleScreen() {
   const [mode, setMode] = useState<'upcoming' | 'past'>('upcoming');
-  // 2. Initialize the router
-  const router = useRouter(); 
-  
+  const router = useRouter(); // 實例化 router
+
   // Some expo-router builds may not expose `useSearchParams` on web; provide a safe fallback
   const useSearchParams = typeof _useSearchParams === 'function'
     ? _useSearchParams
@@ -85,9 +84,11 @@ export default function ScheduleScreen() {
           const summary = deep?.summary || '';
           const start = r?.start_date ? new Date(r.start_date).toLocaleDateString() : '';
           const end = r?.end_date ? new Date(r.end_date).toLocaleDateString() : '';
+          
           return {
             id: String(r.id),
-            title: r.destination || (summary.split('\n')?.[0] || 'Trip'),
+            // 修改這裡：優先讀取資料庫的 title (使用者自訂的名稱)，若無則讀取目的地的預設名稱
+            title: r.title || deep?.title || r.destination || (summary.split('\n')?.[0] || '我的旅程'),
             dateRange: start && end ? `${start} - ${end}` : (start || end || ''),
             activities: summary || `${(deep?.schedule?.length || 0)} activities`,
             image: (deep?.hotels && deep.hotels[0]?.bookingUrl) || undefined,
@@ -114,7 +115,7 @@ export default function ScheduleScreen() {
             loadingHistory ? (
               <Text>Loading history...</Text>
             ) : trips.length ? (
-              // 3. Attach the onItemPress event to navigate using the trip ID
+              // 修改這裡：把 onItemPress 加回去，確保點擊後可以導覽至行程詳細頁面
               <TripList 
                 trips={trips} 
                 onItemPress={(trip) => router.push({ pathname: '/(tabs)/schedule-detail', params: { scheduleId: trip.id } })}

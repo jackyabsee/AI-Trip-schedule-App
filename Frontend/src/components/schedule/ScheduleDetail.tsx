@@ -1,6 +1,6 @@
 // src/components/schedule/ScheduleDetail.tsx
 import React, { useState, useEffect, useMemo } from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Alert, ActivityIndicator, TextInput } from 'react-native';
 import ScheduleHeader from './ScheduleHeader';
 import ScheduleTimeline from './ScheduleTimeline';
 import { ScheduleItem } from '../../types';
@@ -26,6 +26,7 @@ export default function ScheduleDetail({
   title, startDate, endDate, numTourists, summary, schedule, persistedId, rawPayload
 }: Props) {
   const [localSchedule, setLocalSchedule] = useState<any[]>([]);
+  const [localTitle, setLocalTitle] = useState(title || '我的專屬旅遊行程');
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
@@ -35,7 +36,8 @@ export default function ScheduleDetail({
 
   useEffect(() => {
     if (schedule) setLocalSchedule(schedule);
-  }, [schedule]);
+    if (title) setLocalTitle(title);
+  }, [schedule, title]);
 
   // 1. 判斷結構與分組
   const isNested = localSchedule.length > 0 && Array.isArray(localSchedule[0]?.activities);
@@ -97,7 +99,7 @@ export default function ScheduleDetail({
     setIsSaving(true);
     try {
       const updatedPayload = { ...rawPayload, schedule: localSchedule };
-      await updateSchedulePayload(String(persistedId), updatedPayload);
+      await updateSchedulePayload(String(persistedId), updatedPayload, localTitle);
       Alert.alert("成功", "行程已成功更新！");
       setIsEditing(false);
     } catch (error: any) {
@@ -109,6 +111,7 @@ export default function ScheduleDetail({
 
   const handleCancel = () => {
     if (schedule) setLocalSchedule(schedule);
+    if (title) setLocalTitle(title); // 恢復原本的標題
     setIsEditing(false);
   };
 
@@ -183,7 +186,9 @@ export default function ScheduleDetail({
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <ScheduleHeader title={title} startDate={startDate} endDate={endDate} numTourists={numTourists} summary={summary} />
+        {!isEditing && (
+          <ScheduleHeader title={localTitle} startDate={startDate} endDate={endDate} numTourists={numTourists} summary={summary} />
+        )}
 
         <View style={styles.actionBar}>
           <Text style={styles.actionTitle}>行程總覽</Text>
@@ -215,6 +220,20 @@ export default function ScheduleDetail({
             </View>
           )}
         </View>
+
+        {/* 新增：編輯模式下的標題輸入框 */}
+        {isEditing && (
+          <View style={styles.editTitleContainer}>
+            <Text style={styles.editTitleLabel}>行程名稱：</Text>
+            <TextInput 
+              style={styles.editTitleInput}
+              value={localTitle}
+              onChangeText={setLocalTitle}
+              placeholder="例如：東京五天四夜自由行"
+              placeholderTextColor="#9CA3AF"
+            />
+          </View>
+        )}
 
         {/* --- 標籤列 (Tabs) --- */}
         <View style={styles.tabsWrapper}>
@@ -288,5 +307,28 @@ const styles = StyleSheet.create({
   emptyDay: { padding: 40, alignItems: 'center', justifyContent: 'center' },
   emptyDayText: { color: '#6B7280', fontSize: 15, marginBottom: 16 },
   addFirstBtn: { backgroundColor: '#EEF2FF', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 8 },
-  addFirstBtnText: { color: '#0B51F1', fontWeight: '700' }
+  addFirstBtnText: { color: '#0B51F1', fontWeight: '700' },
+
+  editTitleContainer: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 18,
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderColor: '#E6E9F2',
+  },
+  editTitleLabel: {
+    fontSize: 13,
+    color: '#6B7280',
+    fontWeight: '600',
+    marginBottom: 6,
+  },
+  editTitleInput: {
+    backgroundColor: '#F3F4F6',
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#111827',
+  }
 });
