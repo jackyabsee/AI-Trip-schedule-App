@@ -24,6 +24,8 @@ interface ScheduleDay {
   price: number;
   activities: string;
   notes: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 interface Hotel {
@@ -121,6 +123,8 @@ let prompt = `You are an expert, local travel planner. Your task is to design a 
   prompt += `2. Do not overcrowd the days; maintain a comfortable pace suitable for the travel style.\n`;
   prompt += `3. Keep estimated prices highly realistic for the current year in ${input.currency || 'HKD'}.\n`;
   prompt += `4. Provide all text, names, and descriptions in the following language: ${input.language || 'zh-TW'}.\n`;
+  prompt += `5. You MUST provide highly accurate 'latitude' and 'longitude' float coordinates for every placeName so they can be plotted on a map`;
+
 
   // 3. Strict JSON Output Formatting (Including the new Title field)
   prompt += `\nCRITICAL: You MUST respond ONLY with a raw, valid JSON object. Do NOT wrap the JSON in Markdown formatting (no \`\`\`json tags). Do NOT include any conversational text before or after the JSON. Use the exact structure below:\n`;
@@ -135,6 +139,8 @@ let prompt = `You are an expert, local travel planner. Your task is to design a 
       "placeName": "Exact name of the location",
       "address": "Full physical address",
       "price": 150,
+      "latitude": 47.497, 
+      "longitude": 19.048,
       "activities": "Detailed description of what to do, eat, or see here.",
       "notes": "Travel tips, transport advice, or warnings (e.g., 'Book tickets 2 weeks in advance')."
     }

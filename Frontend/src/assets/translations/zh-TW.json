@@ -164,5 +164,6 @@
   "home_nav_settings": "設定",
   "start_date": "開始日期",
   "end_date": "結束日期",
-  "ai_generating": "AI 正在生成您的行程表..."
+  "ai_generating": "AI 正在生成您的行程表...",
+  "daily_route_map": "每日路線地圖"
 }

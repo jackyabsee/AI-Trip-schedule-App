@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, View, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import{SafeAreaView} from 'react-native-safe-area-context';
 import HomeSearchBar from '../../components/home/HomeSearchBar';
 import TripFilters from '../../components/tripHistory/TripFilters';
 import TripList from '../../components/tripHistory/TripList';

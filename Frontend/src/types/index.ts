@@ -24,6 +24,8 @@ export interface ScheduleItem {
   price?: number;
   activities: string;
   notes?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface Hotel {

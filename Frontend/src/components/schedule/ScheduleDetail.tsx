@@ -9,6 +9,7 @@ import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 import { useAuthStore } from '../../store/useAuthStore';
 import { Ionicons } from '@expo/vector-icons';
+import DayMap from './DayMap';
 
 interface Props {
   title?: string;
@@ -264,8 +265,15 @@ export default function ScheduleDetail({
 
         {/* --- 行程時間軸內容 (只顯示目前選中的 Tab) --- */}
         {currentActivities && currentActivities.length > 0 ? (
-          <ScheduleTimeline schedule={currentActivities} editable={isEditing} onChange={handleTimelineChange} />
-        ) : (
+          <>
+
+            <ScheduleTimeline schedule={currentActivities} editable={isEditing} onChange={handleTimelineChange} />
+            
+            {/* 2. ADD THE MAP HERE */}
+            <DayMap schedule={currentActivities} />
+
+          </>        
+          ) : (
           <View style={styles.emptyDay}>
             <Text style={styles.emptyDayText}>這一天還沒有任何行程安排。</Text>
             {isEditing && (
