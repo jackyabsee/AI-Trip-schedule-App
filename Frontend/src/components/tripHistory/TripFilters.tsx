@@ -10,11 +10,11 @@ interface Props {
 export default function TripFilters({ selected, onChange }: Props) {
   return (
     <View style={styles.row}>
-      <TouchableOpacity style={[styles.btn, selected === 'upcoming' && styles.btnActive]} onPress={() => onChange('upcoming')}>
-        <Text style={[styles.text, selected === 'upcoming' && styles.textActive]}>{i18n.t('home_recommended_for_you') || 'Upcoming'}</Text>
-      </TouchableOpacity>
       <TouchableOpacity style={[styles.btn, selected === 'past' && styles.btnActive]} onPress={() => onChange('past')}>
         <Text style={[styles.text, selected === 'past' && styles.textActive]}>{i18n.t('home_nav_history') || 'Past'}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.btn, selected === 'upcoming' && styles.btnActive]} onPress={() => onChange('upcoming')}>
+        <Text style={[styles.text, selected === 'upcoming' && styles.textActive]}>{i18n.t('home_recommended_for_you') || 'Upcoming'}</Text>
       </TouchableOpacity>
     </View>
   );

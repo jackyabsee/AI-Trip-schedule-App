@@ -270,7 +270,7 @@ export default function ScheduleDetail({
             <ScheduleTimeline schedule={currentActivities} editable={isEditing} onChange={handleTimelineChange} />
             
             {/* 2. ADD THE MAP HERE */}
-            <DayMap schedule={currentActivities} />
+            {/* <DayMap schedule={currentActivities} /> */}
 
           </>        
           ) : (

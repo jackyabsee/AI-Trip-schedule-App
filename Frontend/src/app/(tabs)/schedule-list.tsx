@@ -13,7 +13,7 @@ import { fetchSchedules } from '../../services/supabaseApi';
 import { getCurrentUser } from '../../services/supabaseAuth';
 
 export default function ScheduleScreen() {
-  const [mode, setMode] = useState<'upcoming' | 'past'>('upcoming');
+  const [mode, setMode] = useState<'upcoming' | 'past'>('past');
   const router = useRouter(); // 實例化 router
 
   // Some expo-router builds may not expose `useSearchParams` on web; provide a safe fallback
