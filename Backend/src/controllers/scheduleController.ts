@@ -46,14 +46,8 @@ export const generateSchedule = async (req: AuthedRequest, res: Response) => {
     });
     schedule = deepseekResponse?.schedule || [];
     hotels = deepseekResponse?.hotels || [];
-  } catch (err) {
+  } catch (err: any) {
     // eslint-disable-next-line no-console
-    console.error('Schedule generation failed:', {
-      message: err?.message ?? err,
-      body: input,
-      stack: err?.stack,
-      response: err?.response?.data ?? err?.response ?? null,
-    });
     const message = err?.message || 'Failed to generate schedule';
     return res.status(500).json({ error: message });
   }
@@ -81,7 +75,7 @@ export const generateSchedule = async (req: AuthedRequest, res: Response) => {
       }
 
       return res.status(201).json({ ...(deepseekResponse || {}), id: data?.[0]?.id || null });
-    } catch (err) {
+    } catch (err: any) {
       // eslint-disable-next-line no-console
       console.error('Failed to persist schedule:', { message: err?.message ?? err, stack: err?.stack });
       return res.status(500).json({ error: err?.message || 'Failed to save schedule' });
@@ -102,7 +96,7 @@ export const getSchedule = async (req: AuthedRequest, res: Response) => {
     const { data, error } = await supabaseServer.from('schedules').select('*').eq('id', id).eq('user_id', req.user.id).single();
     if (error || !data) return res.status(404).json({ error: 'Schedule not found' });
     return res.json(data);
-  } catch (err) {
+  } catch (err: any) {
     // eslint-disable-next-line no-console
     console.error('Get schedule error:', { message: err?.message ?? err, stack: err?.stack });
     return res.status(500).json({ error: err?.message || 'Failed to fetch schedule' });
