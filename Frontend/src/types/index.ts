@@ -1,11 +1,10 @@
 // src/types/index.ts
 
 export interface UserInput {
+  currency: string;
   budget: number;
   startDate: string;
   endDate: string;
-  duration: number;
-  travelCompanions: string;
   destination: string;
   travelStyle: string[];
   interests: string[];

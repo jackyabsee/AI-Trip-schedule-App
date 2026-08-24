@@ -10,6 +10,7 @@ import * as Sharing from 'expo-sharing';
 import { useAuthStore } from '../../store/useAuthStore';
 import { Ionicons } from '@expo/vector-icons';
 import DayMap from './DayMap';
+import i18n from '../../utils/i18n';
 
 interface Props {
   title?: string;
@@ -93,7 +94,7 @@ export default function ScheduleDetail({
 
   const handleSave = async () => {
     if (!persistedId) {
-      Alert.alert("錯誤", "無法儲存未同步的行程，請先登入或將此行程匯出。");
+      Alert.alert(i18n.t('error'), i18n.t('save_unsynced_error'));
       return;
     }
 
@@ -101,10 +102,10 @@ export default function ScheduleDetail({
     try {
       const updatedPayload = { ...rawPayload, schedule: localSchedule };
       await updateSchedulePayload(String(persistedId), updatedPayload, localTitle);
-      Alert.alert("成功", "行程已成功更新！");
+      Alert.alert(i18n.t('success'), i18n.t('schedule_updated'));
       setIsEditing(false);
     } catch (error: any) {
-      Alert.alert("錯誤", error.message || "行程更新失敗。");
+      Alert.alert(i18n.t('error'), error.message || i18n.t('schedule_update_failed'));
     } finally {
       setIsSaving(false);
     }
@@ -119,7 +120,7 @@ export default function ScheduleDetail({
   // 匯出 PDF 邏輯
   const handleExportPDF = async () => {
     if (!user) {
-      Alert.alert("需要登入", "請先建立免費帳戶或登入以將行程匯出為 PDF。");
+      Alert.alert(i18n.t('login_required'), i18n.t('export_login_msg'));
       return;
     }
 
@@ -134,6 +135,7 @@ export default function ScheduleDetail({
               <span class="time">${act.time || ''}</span> 
               <span class="place">${act.placeName || act.locationName || '活動'}</span>
               ${act.address ? `<div class="address">📍 ${act.address}</div>` : ''}
+              ${act.price !== undefined ? `<div class="price">💰 ${i18n.t('price')}：${act.price === 0 ? i18n.t('free') : act.price}</div>` : ''}
               <div class="desc">${act.activities || act.description || ''}</div>
               ${act.notes ? `<div class="desc"><em>備註：${act.notes}</em></div>` : ''}
             </div>
@@ -157,6 +159,7 @@ export default function ScheduleDetail({
               .time { font-weight: bold; color: #0B51F1; display: inline-block; width: 60px; vertical-align: top; }
               .place { font-weight: bold; font-size: 16px; color: #111827; }
               .address { color: #6B7280; font-size: 13px; margin-top: 4px; display: block; margin-left: 64px; }
+              .price { color: #0B51F1; font-weight: bold; font-size: 13px; margin-top: 4px; display: block; margin-left: 64px; }
               .desc { color: #4B5563; font-size: 14px; margin-top: 6px; line-height: 1.4; margin-left: 64px; }
             </style>
           </head>
@@ -178,7 +181,7 @@ export default function ScheduleDetail({
       await Sharing.shareAsync(uri, { UTI: '.pdf', mimeType: 'application/pdf', dialogTitle: '匯出旅遊行程' });
     } catch (error) {
       console.error(error);
-      Alert.alert('匯出失敗', '無法產生 PDF 檔案。');
+      Alert.alert(i18n.t('export_failed'), i18n.t('pdf_generate_error'));
     } finally {
       setIsExporting(false);
     }
@@ -197,10 +200,10 @@ export default function ScheduleDetail({
           {isEditing ? (
             <View style={{ flexDirection: 'row', gap: 10 }}>
               <TouchableOpacity onPress={handleCancel} style={styles.cancelBtn}>
-                <Text style={styles.cancelText}>取消</Text>
+                <Text style={styles.cancelText}>{i18n.t('cancel')}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={handleSave} style={styles.saveBtn} disabled={isSaving}>
-                {isSaving ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.saveText}>儲存</Text>}
+                {isSaving ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.saveText}>{i18n.t('save')}</Text>}
               </TouchableOpacity>
             </View>
           ) : (
@@ -209,14 +212,14 @@ export default function ScheduleDetail({
                 {isExporting ? <ActivityIndicator size="small" color="#0B51F1" /> : (
                   <>
                     <Ionicons name="download-outline" size={16} color="#0B51F1" />
-                    <Text style={styles.exportText}>匯出 PDF</Text>
+                    <Text style={styles.exportText}>{i18n.t('export_pdf')}</Text>
                   </>
                 )}
               </TouchableOpacity>
               
               <TouchableOpacity onPress={() => setIsEditing(true)} style={styles.editBtn}>
                 <Ionicons name="pencil-outline" size={16} color="#4B5563" />
-                <Text style={styles.editText}>編輯</Text>
+                <Text style={styles.editText}>{i18n.t('edit')}</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -225,12 +228,12 @@ export default function ScheduleDetail({
         {/* 新增：編輯模式下的標題輸入框 */}
         {isEditing && (
           <View style={styles.editTitleContainer}>
-            <Text style={styles.editTitleLabel}>行程名稱：</Text>
+            <Text style={styles.editTitleLabel}>{i18n.t('trip_name_label')}</Text>
             <TextInput 
               style={styles.editTitleInput}
               value={localTitle}
               onChangeText={setLocalTitle}
-              placeholder="例如：東京五天四夜自由行"
+              placeholder={i18n.t('trip_name_placeholder')}
               placeholderTextColor="#9CA3AF"
             />
           </View>
@@ -248,7 +251,7 @@ export default function ScheduleDetail({
                   onPress={() => setActiveDayIndex(index)}
                 >
                   <Text style={[styles.tabText, isActive && styles.tabTextActive]}>
-                    Day {dayObj.day || index + 1}
+                    {i18n.t('day', { day: dayObj.day || index + 1 })}
                   </Text>
                 </TouchableOpacity>
               );
@@ -257,7 +260,7 @@ export default function ScheduleDetail({
             {isEditing && (
               <TouchableOpacity style={styles.addDayBtn} onPress={handleAddNewDay}>
                 <Ionicons name="add" size={16} color="#0B51F1" />
-                <Text style={styles.addDayText}>新增一天</Text>
+                <Text style={styles.addDayText}>{i18n.t('add_day')}</Text>
               </TouchableOpacity>
             )}
           </ScrollView>
@@ -275,10 +278,10 @@ export default function ScheduleDetail({
           </>        
           ) : (
           <View style={styles.emptyDay}>
-            <Text style={styles.emptyDayText}>這一天還沒有任何行程安排。</Text>
+            <Text style={styles.emptyDayText}>{i18n.t('no_activities_day')}</Text>
             {isEditing && (
               <TouchableOpacity style={styles.addFirstBtn} onPress={() => handleTimelineChange([{ time: '10:00', placeName: '新地點', activities: '' }])}>
-                 <Text style={styles.addFirstBtnText}>+ 加入第一個行程</Text>
+                 <Text style={styles.addFirstBtnText}>+ {i18n.t('add_first_place')}</Text>
               </TouchableOpacity>
             )}
           </View>

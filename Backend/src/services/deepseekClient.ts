@@ -10,7 +10,6 @@ interface DeepseekRequestPayload {
   currency: string;
   travelStyle?: string[];
   accommodation?: string[];
-  travelCompanions?: string;
   startingPlace?: string;
   placesToVisit?: string;
   language?: string;
@@ -98,7 +97,7 @@ let prompt = `You are an expert, local travel planner. Your task is to design a 
   prompt += `Trip Details:\n`;
   prompt += `- Destination: ${input.destination}\n`;
   prompt += `- Dates: ${input.startDate} to ${input.endDate}\n`;
-  prompt += `- Travelers: ${input.numTourists} (${input.travelCompanions || 'Friends/Family'})\n`;
+  prompt += `- Travelers: ${input.numTourists}\n`;
   prompt += `- Total Budget: ${input.budget} ${input.currency || 'HKD'} (excluding flights)\n`;
   
   if (input.interests && input.interests.length > 0) {

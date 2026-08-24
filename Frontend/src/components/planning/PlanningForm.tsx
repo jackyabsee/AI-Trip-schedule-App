@@ -69,11 +69,9 @@ export default function PlanningForm() {
     const duration = computeDuration(startDate, endDate);
     const input: UserInput = {
       currency: currency,
-      budget: Number(budget) || 0,
+      budget: Number(budget) || 2000,
       startDate,
       endDate,
-      duration,
-      travelCompanions: '',
       destination,
       travelStyle: travelStyle.map((s) => (s.startsWith('__other::') ? s.split('::')[1] : s)),
       interests: interests.map((s) => (s.startsWith('__other::') ? s.split('::')[1] : s)),

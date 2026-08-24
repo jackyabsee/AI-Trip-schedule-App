@@ -27,6 +27,8 @@ export const generateSchedule = async (req: AuthedRequest, res: Response) => {
   let deepseekResponse: any = null;
   let schedule: any[] = [];
   let hotels: any[] = [];
+
+  console.log('Calling Deepseek API with input:', input);
   try {
     deepseekResponse = await callDeepseek({
       destination: input.destination,
@@ -38,7 +40,6 @@ export const generateSchedule = async (req: AuthedRequest, res: Response) => {
       currency: input.currency || 'HKD',
       travelStyle: input.travelStyle || [],
       accommodation: input.accommodation || [],
-      travelCompanions: input.travelCompanions || '',
       startingPlace: input.startingPlace || '',
       placesToVisit: input.placesToVisit || '',
       language: input.language || undefined,
